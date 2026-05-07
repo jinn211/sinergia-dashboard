@@ -1,41 +1,39 @@
 import type { ProcessStatus, PieceStatus } from '../types';
-import { Loader2, Clock, CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
 
-interface ProcessStatusBadgeProps { status: ProcessStatus; }
-interface PieceStatusBadgeProps { status: PieceStatus; }
-
-const processStatusConfig: Record<ProcessStatus, { label: string; className: string; dot: string }> = {
-  processing: { label: 'Procesando',         className: 'bg-blue-50 text-blue-700 border-blue-100',    dot: 'bg-blue-500 animate-pulse' },
-  waiting:    { label: 'Para revisar',       className: 'bg-amber-50 text-amber-700 border-amber-100',  dot: 'bg-amber-500' },
-  completed:  { label: 'Completado',         className: 'bg-emerald-50 text-emerald-700 border-emerald-100', dot: 'bg-emerald-500' },
-  error:      { label: 'Error',             className: 'bg-red-50 text-red-700 border-red-100',         dot: 'bg-red-500' },
+const processCfg: Record<ProcessStatus, { dot: string; label: string }> = {
+  processing: { dot: 'bg-status-processing', label: 'En proceso' },
+  waiting:    { dot: 'bg-status-waiting',    label: 'Para revisar' },
+  completed:  { dot: 'bg-status-completed',  label: 'Completado' },
+  error:      { dot: 'bg-status-error',      label: 'Error' },
 };
 
-const pieceStatusConfig: Record<PieceStatus, { label: string; icon: React.ElementType; className: string }> = {
-  generating:     { label: 'Generando',      icon: Loader2,      className: 'text-blue-500' },
-  'waiting-review': { label: 'Para revisar', icon: Clock,        className: 'text-amber-500' },
-  approved:       { label: 'Aprobado',       icon: CheckCircle2, className: 'text-emerald-500' },
-  rejected:       { label: 'Rechazado',      icon: XCircle,      className: 'text-red-500' },
-  regenerating:   { label: 'Regenerando',    icon: RefreshCw,    className: 'text-purple-500' },
+const pieceCfg: Record<PieceStatus, { color: string; label: string; spin?: boolean }> = {
+  generating:       { color: 'text-status-processing', label: 'Generando',    spin: true },
+  'waiting-review': { color: 'text-status-waiting',    label: 'Para revisar' },
+  approved:         { color: 'text-status-completed',  label: 'Aprobado' },
+  rejected:         { color: 'text-status-error',      label: 'Rechazado' },
+  regenerating:     { color: 'text-warm-500',          label: 'Regenerando',  spin: true },
 };
 
-export function ProcessStatusBadge({ status }: ProcessStatusBadgeProps) {
-  const config = processStatusConfig[status];
+export function ProcessStatusBadge({ status }: { status: ProcessStatus }) {
+  const { dot, label } = processCfg[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${config.className}`}>
-      <span className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
-      {config.label}
+    <span className="inline-flex items-center gap-1.5">
+      <span className={`w-[5px] h-[5px] rounded-full flex-shrink-0 ${dot} ${status === 'processing' ? 'animate-pulse' : ''}`} />
+      <span className="font-mono text-[11px] text-warm-500 tracking-wide">{label}</span>
     </span>
   );
 }
 
-export function PieceStatusBadge({ status }: PieceStatusBadgeProps) {
-  const config = pieceStatusConfig[status];
-  const Icon = config.icon;
+export function PieceStatusBadge({ status }: { status: PieceStatus }) {
+  const { color, label, spin } = pieceCfg[status];
   return (
-    <span className={`inline-flex items-center gap-1 text-xs font-medium ${config.className}`}>
-      <Icon size={12} className={status === 'generating' || status === 'regenerating' ? 'animate-spin' : ''} />
-      {config.label}
+    <span className={`inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wide ${color}`}>
+      {spin
+        ? <span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin flex-shrink-0" />
+        : <span className="w-[5px] h-[5px] rounded-full bg-current flex-shrink-0" />
+      }
+      {label}
     </span>
   );
 }

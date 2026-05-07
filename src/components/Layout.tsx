@@ -1,13 +1,11 @@
 import type { ReactNode } from 'react';
 import Sidebar from './Sidebar';
 
-interface Props { children: ReactNode; }
-
-export default function Layout({ children }: Props) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <div className="flex w-full min-h-screen bg-surface-100">
+    <div className="flex w-full min-h-screen bg-cream">
       <Sidebar />
-      <main className="flex-1 ml-64 min-h-screen">
+      <main className="flex-1 ml-60 min-h-screen">
         {children}
       </main>
     </div>

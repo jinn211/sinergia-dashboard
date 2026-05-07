@@ -1,58 +1,51 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
+        body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
+        mono:    ['"DM Mono"', 'monospace'],
       },
       colors: {
-        brand: {
-          50:  '#f0f0ff',
-          100: '#e2e2fe',
-          200: '#c9c7fd',
-          300: '#a89ffa',
-          400: '#8a74f6',
-          500: '#7c3aed',
-          600: '#6d28d9',
-          700: '#5b21b6',
-          800: '#4c1d95',
-          900: '#3b0764',
+        // Warm neutral scale — the entire UI lives here
+        warm: {
+          950: '#18171A',
+          900: '#2A2826',
+          800: '#3E3B38',
+          700: '#565350',
+          600: '#706C65',
+          500: '#8C8880',
+          400: '#ABA79F',
+          300: '#C8C4BB',
+          200: '#DED9D0',
+          100: '#EDE9E0',
+          50:  '#F7F5F0',
         },
-        surface: {
-          50:  '#f8f9fb',
-          100: '#f1f3f7',
-          200: '#e8ebf2',
-          300: '#d1d8e8',
+        cream: '#F7F5F0',
+        // Status — very muted, never loud
+        status: {
+          processing: '#4A7FA5',
+          waiting:    '#9A7535',
+          completed:  '#3D7A5A',
+          error:      '#9A4A40',
         },
-        sidebar: '#0d0d14',
       },
       boxShadow: {
-        'card': '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
-        'card-hover': '0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06)',
-        'modal': '0 20px 60px rgba(0,0,0,0.18), 0 8px 24px rgba(0,0,0,0.10)',
+        'sm':    '0 1px 2px rgba(24, 23, 26, 0.05)',
+        'card':  '0 1px 3px rgba(24, 23, 26, 0.07), 0 1px 2px rgba(24, 23, 26, 0.04)',
+        'hover': '0 4px 16px rgba(24, 23, 26, 0.10), 0 1px 4px rgba(24, 23, 26, 0.05)',
       },
+      borderColor: { DEFAULT: '#DED9D0' },
       keyframes: {
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
-        'slide-up': {
-          '0%': { opacity: '0', transform: 'translateY(16px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
         'fade-in': {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          from: { opacity: '0', transform: 'translateY(8px)' },
+          to:   { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
-        shimmer: 'shimmer 2s linear infinite',
-        'slide-up': 'slide-up 0.3s ease-out',
-        'fade-in': 'fade-in 0.2s ease-out',
+        'fade-in': 'fade-in 0.2s ease-out forwards',
       },
     },
   },
