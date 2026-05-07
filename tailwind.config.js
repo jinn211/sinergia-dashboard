@@ -4,48 +4,67 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Fraunces', 'Georgia', 'serif'],
-        body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
-        mono:    ['"DM Mono"', 'monospace'],
+        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        mono: ['"DM Mono"', 'monospace'],
       },
       colors: {
-        // Warm neutral scale — the entire UI lives here
-        warm: {
-          950: '#18171A',
-          900: '#2A2826',
-          800: '#3E3B38',
-          700: '#565350',
-          600: '#706C65',
-          500: '#8C8880',
-          400: '#ABA79F',
-          300: '#C8C4BB',
-          200: '#DED9D0',
-          100: '#EDE9E0',
-          50:  '#F7F5F0',
+        // Sinergia brand green
+        brand: {
+          50:  '#EDFAF4',
+          100: '#D2F3E5',
+          200: '#A6E7CC',
+          300: '#6DD4AA',
+          400: '#4DB887',
+          500: '#3BA372',
+          600: '#2D8A5D',
+          700: '#206E49',
+          800: '#155437',
+          900: '#0A3823',
         },
-        cream: '#F7F5F0',
-        // Status — very muted, never loud
+        // Neutral scale — replaces old warm scale, keeps same class names in components
+        warm: {
+          950: '#0F1714',
+          900: '#1C2B24',
+          800: '#374151',
+          700: '#4B5563',
+          600: '#6B7280',
+          500: '#9CA3AF',
+          400: '#CBD5E1',
+          300: '#E2E8F0',
+          200: '#EEF2F6',
+          100: '#F4F6F8',
+          50:  '#F9FAFB',
+        },
+        sidebar: '#0F1714',
+        cream: '#F2F5F3',
+        // Status colors — slightly adjusted to Sinergia green family
         status: {
-          processing: '#4A7FA5',
-          waiting:    '#9A7535',
-          completed:  '#3D7A5A',
-          error:      '#9A4A40',
+          processing: '#3B82F6',
+          waiting:    '#F59E0B',
+          completed:  '#4DB887',
+          error:      '#EF4444',
         },
       },
       boxShadow: {
-        'sm':    '0 1px 2px rgba(24, 23, 26, 0.05)',
-        'card':  '0 1px 3px rgba(24, 23, 26, 0.07), 0 1px 2px rgba(24, 23, 26, 0.04)',
-        'hover': '0 4px 16px rgba(24, 23, 26, 0.10), 0 1px 4px rgba(24, 23, 26, 0.05)',
+        // Concepto A — cards that feel like physical objects
+        'card':       '0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06), 0 12px 32px rgba(0,0,0,0.04)',
+        'card-hover': '0 2px 4px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.10), 0 20px 48px rgba(0,0,0,0.06)',
+        'sm':         '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
       },
-      borderColor: { DEFAULT: '#DED9D0' },
+      borderColor: { DEFAULT: '#E2E8F0' },
+      borderRadius: {
+        'xl':  '12px',
+        '2xl': '16px',
+        '3xl': '24px',
+      },
       keyframes: {
-        'fade-in': {
-          from: { opacity: '0', transform: 'translateY(8px)' },
+        'fade-up': {
+          from: { opacity: '0', transform: 'translateY(10px)' },
           to:   { opacity: '1', transform: 'translateY(0)' },
         },
       },
       animation: {
-        'fade-in': 'fade-in 0.2s ease-out forwards',
+        'fade-up': 'fade-up 0.22s ease-out forwards',
       },
     },
   },

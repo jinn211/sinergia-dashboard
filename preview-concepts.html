@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sinergia — Previews de Concepto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #ECEEF2;
+    padding: 48px 32px;
+    min-height: 100vh;
+  }
+
+  .page-title {
+    text-align: center;
+    font-family: 'Geist', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #888;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+
+  .concepts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .concept-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .concept-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: #777;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .concept-name {
+    font-family: 'Geist', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .concept-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: #888;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  /* ─────────────────────────────────────────
+     CONCEPTO A — Elevated
+  ───────────────────────────────────────── */
+  .concept-a {
+    background: #F5F6FA;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: 'Geist', sans-serif;
+  }
+
+  .a-header {
+    background: #1E2235;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .a-logo {
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .a-logo span {
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.35);
+    margin-left: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .a-new-btn {
+    background: #3B82F6;
+    color: #fff;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Geist', sans-serif;
+  }
+
+  .a-body {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .a-section-label {
+    font-size: 9px;
+    font-weight: 500;
+    color: #9CA3AF;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    padding: 0 4px;
+  }
+
+  .a-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-shadow:
+      0 1px 2px rgba(30,34,53,0.04),
+      0 4px 12px rgba(30,34,53,0.06),
+      0 12px 32px rgba(30,34,53,0.05);
+    border: 1px solid rgba(30,34,53,0.06);
+  }
+
+  .a-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .a-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .a-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #3B82F6;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-family: 'Geist Mono', monospace;
+  }
+  .a-status.waiting { color: #D97706; background: #FFFBEB; border-color: #FDE68A; }
+  .a-status.done    { color: #059669; background: #ECFDF5; border-color: #A7F3D0; }
+
+  .a-status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .a-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .a-chip {
+    background: #F3F4F6;
+    border: 1px solid #E5E7EB;
+    color: #6B7280;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'Geist Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .a-progress-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .a-progress-track {
+    flex: 1;
+    height: 3px;
+    background: #F3F4F6;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .a-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3B82F6, #6366F1);
+    border-radius: 2px;
+  }
+  .a-progress-fill.waiting { background: linear-gradient(90deg, #F59E0B, #EF4444); }
+  .a-progress-fill.done   { background: linear-gradient(90deg, #10B981, #059669); }
+  .a-progress-pct {
+    font-size: 9px;
+    color: #9CA3AF;
+    font-family: 'Geist Mono', monospace;
+    width: 24px;
+    text-align: right;
+  }
+
+  /* ─────────────────────────────────────────
+     CONCEPTO B — Glass
+  ───────────────────────────────────────── */
+  .concept-b {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(139,92,246,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(59,130,246,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 50% 50%, rgba(236,72,153,0.08) 0%, transparent 70%),
+      #0F0F1A;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: 'Geist', sans-serif;
+  }
+
+  .b-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.04);
+    backdrop-filter: blur(12px);
+  }
+  .b-logo {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: -0.01em;
+  }
+  .b-logo span {
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    margin-left: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .b-new-btn {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.85);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Geist', sans-serif;
+    backdrop-filter: blur(8px);
+  }
+
+  .b-body {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .b-section-label {
+    font-size: 9px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    padding: 0 4px;
+  }
+
+  .b-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 12px;
+    padding: 14px 16px;
+    backdrop-filter: blur(20px);
+    position: relative;
+    overflow: hidden;
+  }
+  .b-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .b-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .b-card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .b-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: rgba(167,139,250,0.9);
+    background: rgba(139,92,246,0.15);
+    border: 1px solid rgba(139,92,246,0.25);
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    font-family: 'Geist Mono', monospace;
+    backdrop-filter: blur(4px);
+  }
+  .b-status.waiting { color: rgba(251,191,36,0.9); background: rgba(245,158,11,0.12); border-color: rgba(245,158,11,0.25); }
+  .b-status.done    { color: rgba(52,211,153,0.9); background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.25); }
+
+  .b-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  .b-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .b-chip {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4);
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-family: 'Geist Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .b-progress-track {
+    flex: 1;
+    height: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .b-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B5CF6, #6366F1);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(139,92,246,0.5);
+  }
+  .b-progress-fill.waiting { background: linear-gradient(90deg, #F59E0B, #F97316); box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+  .b-progress-fill.done   { background: linear-gradient(90deg, #10B981, #34D399); box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+
+  .b-progress-row { display: flex; align-items: center; gap: 8px; }
+  .b-progress-pct { font-size: 9px; color: rgba(255,255,255,0.25); font-family: 'Geist Mono', monospace; width: 24px; text-align: right; }
+
+  /* ─────────────────────────────────────────
+     CONCEPTO D — Material Premium
+  ───────────────────────────────────────── */
+  .concept-d {
+    background: #FAFAF8;
+    border-radius: 16px;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .d-header {
+    background: #1A1914;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .d-logo {
+    font-size: 13px;
+    font-weight: 600;
+    color: #F5F3EE;
+    letter-spacing: -0.01em;
+  }
+  .d-logo span {
+    font-size: 9px;
+    font-weight: 400;
+    color: rgba(245,243,238,0.3);
+    margin-left: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .d-new-btn {
+    background: #C9A96E;
+    color: #1A1914;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .d-body {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #F2F0EB;
+  }
+
+  .d-section-label {
+    font-size: 9px;
+    font-weight: 500;
+    color: #A09890;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    padding: 0 4px;
+  }
+
+  /* Elevation layer 1 — base */
+  .d-card {
+    background: #FAFAF8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow:
+      0 0 0 1px rgba(26,25,20,0.06),
+      0 1px 1px rgba(26,25,20,0.04),
+      0 2px 4px rgba(26,25,20,0.04),
+      0 8px 16px rgba(26,25,20,0.06);
+    position: relative;
+  }
+
+  /* Elevation layer 2 — accent strip */
+  .d-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 10%; bottom: 10%;
+    width: 2px;
+    border-radius: 0 2px 2px 0;
+    background: #C9A96E;
+  }
+  .d-card.waiting::before { background: #C9813A; }
+  .d-card.done::before    { background: #5A8A6A; }
+
+  .d-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .d-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1A1914;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .d-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 500;
+    color: #8A6A3A;
+    background: rgba(201,169,110,0.12);
+    border: 1px solid rgba(201,169,110,0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-family: 'Geist Mono', monospace;
+  }
+  .d-status.waiting { color: #9A6030; background: rgba(201,129,58,0.1); border-color: rgba(201,129,58,0.25); }
+  .d-status.done    { color: #3A6A4A; background: rgba(90,138,106,0.1); border-color: rgba(90,138,106,0.25); }
+
+  .d-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+  .d-channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+  .d-chip {
+    background: rgba(26,25,20,0.04);
+    border: 1px solid rgba(26,25,20,0.08);
+    color: #9A9488;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-family: 'Geist Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .d-progress-row { display: flex; align-items: center; gap: 8px; }
+  .d-progress-track {
+    flex: 1;
+    height: 3px;
+    background: rgba(26,25,20,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(26,25,20,0.06);
+  }
+  .d-progress-fill {
+    height: 100%;
+    background: #C9A96E;
+    border-radius: 2px;
+  }
+  .d-progress-fill.waiting { background: #C9813A; }
+  .d-progress-fill.done   { background: #5A8A6A; }
+  .d-progress-pct { font-size: 9px; color: #A09890; font-family: 'Geist Mono', monospace; width: 24px; text-align: right; }
+
+  /* Stacked card effect for D */
+  .d-stack {
+    position: relative;
+    margin-bottom: 4px;
+  }
+  .d-stack::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 8px; right: 8px;
+    height: 100%;
+    background: #EFEDE7;
+    border-radius: 10px;
+    box-shadow: 0 0 0 1px rgba(26,25,20,0.05), 0 2px 8px rgba(26,25,20,0.04);
+    z-index: -1;
+  }
+
+  .d-stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .d-stat {
+    background: #FAFAF8;
+    border-radius: 8px;
+    padding: 10px 12px;
+    box-shadow: 0 0 0 1px rgba(26,25,20,0.06), 0 2px 6px rgba(26,25,20,0.05);
+    text-align: center;
+  }
+  .d-stat-num {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1A1914;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    font-family: 'Geist', sans-serif;
+  }
+  .d-stat-label {
+    font-size: 8px;
+    color: #A09890;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    font-family: 'Geist Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<p class="page-title">Sinergia · Concepts A · B · D</p>
+
+<div class="concepts">
+
+  <!-- ── A: Elevated ── -->
+  <div class="concept-wrapper">
+    <div class="concept-a">
+      <div class="a-header">
+        <div class="a-logo">Sinergia <span>Content</span></div>
+        <button class="a-new-btn">+ Nuevo</button>
+      </div>
+      <div class="a-body">
+        <p class="a-section-label">Procesos</p>
+
+        <div class="a-card">
+          <div class="a-card-top">
+            <p class="a-card-title">Workshop de Innovación Corporativa</p>
+            <span class="a-status"><span class="a-status-dot"></span>En proceso</span>
+          </div>
+          <div class="a-channels">
+            <span class="a-chip">IG Post</span>
+            <span class="a-chip">Story</span>
+            <span class="a-chip">LinkedIn</span>
+            <span class="a-chip">A4</span>
+          </div>
+          <div class="a-progress-row">
+            <div class="a-progress-track"><div class="a-progress-fill" style="width:65%"></div></div>
+            <span class="a-progress-pct">65%</span>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-top">
+            <p class="a-card-title">After Work Rooftop — Founders</p>
+            <span class="a-status waiting"><span class="a-status-dot"></span>Para revisar</span>
+          </div>
+          <div class="a-channels">
+            <span class="a-chip">IG Post</span>
+            <span class="a-chip">Story</span>
+            <span class="a-chip">App</span>
+          </div>
+          <div class="a-progress-row">
+            <div class="a-progress-track"><div class="a-progress-fill waiting" style="width:100%"></div></div>
+            <span class="a-progress-pct">100%</span>
+          </div>
+        </div>
+
+        <div class="a-card">
+          <div class="a-card-top">
+            <p class="a-card-title">Apertura Sede Punta Carretas</p>
+            <span class="a-status done"><span class="a-status-dot"></span>Completado</span>
+          </div>
+          <div class="a-channels">
+            <span class="a-chip">IG Post</span>
+            <span class="a-chip">LinkedIn</span>
+            <span class="a-chip">Mail</span>
+            <span class="a-chip">Pantallas</span>
+          </div>
+          <div class="a-progress-row">
+            <div class="a-progress-track"><div class="a-progress-fill done" style="width:100%"></div></div>
+            <span class="a-progress-pct">100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-label">Concepto A</p>
+    <p class="concept-name">Elevated</p>
+    <p class="concept-desc">Cards blancas flotantes con sombras reales y calibradas. Acento azul apagado. Se siente como una app iOS premium.</p>
+  </div>
+
+  <!-- ── B: Glass ── -->
+  <div class="concept-wrapper">
+    <div class="concept-b">
+      <div class="b-header">
+        <div class="b-logo">Sinergia <span>Content</span></div>
+        <button class="b-new-btn">+ Nuevo</button>
+      </div>
+      <div class="b-body">
+        <p class="b-section-label">Procesos</p>
+
+        <div class="b-card">
+          <div class="b-card-top">
+            <p class="b-card-title">Workshop de Innovación Corporativa</p>
+            <span class="b-status"><span class="b-status-dot"></span>En proceso</span>
+          </div>
+          <div class="b-channels">
+            <span class="b-chip">IG Post</span>
+            <span class="b-chip">Story</span>
+            <span class="b-chip">LinkedIn</span>
+            <span class="b-chip">A4</span>
+          </div>
+          <div class="b-progress-row">
+            <div class="b-progress-track"><div class="b-progress-fill" style="width:65%"></div></div>
+            <span class="b-progress-pct">65%</span>
+          </div>
+        </div>
+
+        <div class="b-card">
+          <div class="b-card-top">
+            <p class="b-card-title">After Work Rooftop — Founders</p>
+            <span class="b-status waiting"><span class="b-status-dot"></span>Para revisar</span>
+          </div>
+          <div class="b-channels">
+            <span class="b-chip">IG Post</span>
+            <span class="b-chip">Story</span>
+            <span class="b-chip">App</span>
+          </div>
+          <div class="b-progress-row">
+            <div class="b-progress-track"><div class="b-progress-fill waiting" style="width:100%"></div></div>
+            <span class="b-progress-pct">100%</span>
+          </div>
+        </div>
+
+        <div class="b-card">
+          <div class="b-card-top">
+            <p class="b-card-title">Apertura Sede Punta Carretas</p>
+            <span class="b-status done"><span class="b-status-dot"></span>Completado</span>
+          </div>
+          <div class="b-channels">
+            <span class="b-chip">IG Post</span>
+            <span class="b-chip">LinkedIn</span>
+            <span class="b-chip">Mail</span>
+            <span class="b-chip">Pantallas</span>
+          </div>
+          <div class="b-progress-row">
+            <div class="b-progress-track"><div class="b-progress-fill done" style="width:100%"></div></div>
+            <span class="b-progress-pct">100%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-label">Concepto B</p>
+    <p class="concept-name">Glass</p>
+    <p class="concept-desc">Vidrio esmerilado sobre fondo con gradient mesh oscuro. Elementos translúcidos con brillo sutil. Estilo Apple Vision Pro.</p>
+  </div>
+
+  <!-- ── D: Material Premium ── -->
+  <div class="concept-wrapper">
+    <div class="concept-d">
+      <div class="d-header">
+        <div class="d-logo">Sinergia <span>Content</span></div>
+        <button class="d-new-btn">+ Nuevo</button>
+      </div>
+      <div class="d-body">
+        <div class="d-stat-row">
+          <div class="d-stat"><div class="d-stat-num">4</div><div class="d-stat-label">Total</div></div>
+          <div class="d-stat"><div class="d-stat-num">1</div><div class="d-stat-label">Revisar</div></div>
+          <div class="d-stat"><div class="d-stat-num">1</div><div class="d-stat-label">Listo</div></div>
+        </div>
+
+        <p class="d-section-label">Procesos</p>
+
+        <div class="d-stack">
+          <div class="d-card">
+            <div class="d-card-top">
+              <p class="d-card-title">Workshop de Innovación Corporativa</p>
+              <span class="d-status"><span class="d-status-dot"></span>En proceso</span>
+            </div>
+            <div class="d-channels">
+              <span class="d-chip">IG Post</span>
+              <span class="d-chip">Story</span>
+              <span class="d-chip">LinkedIn</span>
+              <span class="d-chip">A4</span>
+            </div>
+            <div class="d-progress-row">
+              <div class="d-progress-track"><div class="d-progress-fill" style="width:65%"></div></div>
+              <span class="d-progress-pct">65%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-stack">
+          <div class="d-card waiting">
+            <div class="d-card-top">
+              <p class="d-card-title">After Work Rooftop — Founders</p>
+              <span class="d-status waiting"><span class="d-status-dot"></span>Para revisar</span>
+            </div>
+            <div class="d-channels">
+              <span class="d-chip">IG Post</span>
+              <span class="d-chip">Story</span>
+              <span class="d-chip">App</span>
+            </div>
+            <div class="d-progress-row">
+              <div class="d-progress-track"><div class="d-progress-fill waiting" style="width:100%"></div></div>
+              <span class="d-progress-pct">100%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-stack">
+          <div class="d-card done">
+            <div class="d-card-top">
+              <p class="d-card-title">Apertura Sede Punta Carretas</p>
+              <span class="d-status done"><span class="d-status-dot"></span>Completado</span>
+            </div>
+            <div class="d-channels">
+              <span class="d-chip">IG Post</span>
+              <span class="d-chip">LinkedIn</span>
+              <span class="d-chip">Pantallas</span>
+            </div>
+            <div class="d-progress-row">
+              <div class="d-progress-track"><div class="d-progress-fill done" style="width:100%"></div></div>
+              <span class="d-progress-pct">100%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <p class="concept-label">Concepto D</p>
+    <p class="concept-name">Material Premium</p>
+    <p class="concept-desc">Cards con sombras en capas de elevación, acento dorado apagado y efecto de profundidad físico. Cada card tiene presencia real.</p>
+  </div>
+
+</div>
+</body>
+</html>

@@ -35,22 +35,22 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
         className="absolute inset-0 bg-white border border-warm-200 rounded overflow-hidden shadow-card flex flex-col p-6 gap-4" style={{ zIndex }}>
         <div className="flex items-center gap-2 text-status-error">
           <XCircle size={15} strokeWidth={1.5} />
-          <p className="font-body font-medium text-[14px]">¿Qué querés cambiar?</p>
+          <p className="font-medium text-[14px]">¿Qué querés cambiar?</p>
         </div>
-        <p className="font-body text-[13px] text-warm-500 leading-relaxed">
+        <p className="text-[13px] text-warm-500 leading-relaxed">
           Contale a la IA qué está mal para que pueda regenerar la imagen.
         </p>
         <textarea value={feedback} onChange={e => setFeedback(e.target.value)}
           placeholder="Ej: El texto es difícil de leer, necesito más contraste entre el fondo y las letras..."
           rows={4}
-          className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] font-body text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
+          className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
         <div className="flex gap-2 mt-auto">
           <button onClick={() => setShowFeedback(false)}
-            className="flex-1 border border-warm-200 text-warm-500 font-body text-[13px] py-2.5 rounded hover:bg-warm-50 transition-colors">
+            className="flex-1 border border-warm-200 text-warm-500 text-[13px] py-2.5 rounded hover:bg-warm-50 transition-colors">
             Cancelar
           </button>
           <button onClick={() => { onReject(feedback); setShowFeedback(false); }} disabled={!feedback.trim()}
-            className="flex-1 bg-warm-950 disabled:opacity-30 text-white font-body text-[13px] py-2.5 rounded hover:bg-warm-800 transition-colors flex items-center justify-center gap-2">
+            className="flex-1 bg-gray-900 disabled:opacity-30 text-white text-[13px] py-2.5 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-2">
             <Send size={13} strokeWidth={1.75} /> Regenerar
           </button>
         </div>
@@ -70,13 +70,13 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
     >
       <motion.div style={{ opacity: approveOpacity }}
         className="absolute inset-0 bg-status-completed/8 border-2 border-status-completed rounded z-10 pointer-events-none flex items-center justify-center">
-        <div className="bg-status-completed text-white px-6 py-2.5 rounded font-display text-[18px] rotate-[-8deg]">
+        <div className="bg-brand-400 text-white px-6 py-2.5 rounded font-bold text-[18px] rotate-[-8deg]">
           Aprobar
         </div>
       </motion.div>
       <motion.div style={{ opacity: rejectOpacity }}
         className="absolute inset-0 bg-status-error/8 border-2 border-status-error rounded z-10 pointer-events-none flex items-center justify-center">
-        <div className="bg-status-error text-white px-6 py-2.5 rounded font-display text-[18px] rotate-[8deg]">
+        <div className="bg-red-500 text-white px-6 py-2.5 rounded font-bold text-[18px] rotate-[8deg]">
           Rechazar
         </div>
       </motion.div>
@@ -85,7 +85,7 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
         className="w-full object-cover" style={{ height: 'calc(100% - 60px)' }} draggable={false} />
       <div className="h-[60px] px-5 flex items-center justify-between border-t border-warm-100">
         <div>
-          <p className="font-body font-medium text-warm-800 text-[13px]">{image.label}</p>
+          <p className="font-medium text-warm-800 text-[13px]">{image.label}</p>
           <p className="font-mono text-[10px] text-warm-400 mt-0.5">{image.dimensions}</p>
         </div>
         <ChannelTag channel={image.channel} />
@@ -114,13 +114,13 @@ function ImageReview({ process }: { process: Process }) {
         {isGenerating ? (
           <>
             <Loader2 size={28} strokeWidth={1} className="text-status-processing animate-spin" />
-            <p className="font-display-italic text-[18px] text-warm-500">Generando imágenes...</p>
+            <p className="font-semibold italic text-[18px] text-warm-500">Generando imágenes...</p>
             <p className="font-mono text-[10px] text-warm-400 uppercase tracking-wider">Te avisaremos cuando estén listas</p>
           </>
         ) : (
           <>
             <CheckCircle2 size={28} strokeWidth={1} className="text-status-completed" />
-            <p className="font-display-italic text-[18px] text-warm-600">Todas las imágenes revisadas</p>
+            <p className="font-semibold italic text-[18px] text-warm-600">Todas las imágenes revisadas</p>
           </>
         )}
       </div>
@@ -172,7 +172,7 @@ function ImageReview({ process }: { process: Process }) {
           </button>
           <button
             onClick={() => updateImageStatus(process.id, current.id, 'approved')}
-            className="w-14 h-14 bg-warm-950 rounded-full text-white flex items-center justify-center hover:bg-warm-800 transition-colors shadow-card"
+            className="w-14 h-14 bg-gray-900 rounded-full text-white flex items-center justify-center hover:bg-gray-800 transition-colors shadow-card"
             title="Aprobar"
           >
             <ThumbsUp size={20} strokeWidth={1.75} />
@@ -206,7 +206,7 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
   return (
     <div className={`border rounded bg-white overflow-hidden transition-colors ${isApproved ? 'border-status-completed/30' : 'border-warm-200'}`}>
       <div className="px-5 py-3.5 border-b border-warm-100 flex items-center justify-between">
-        <p className="font-body font-medium text-[13px] text-warm-800">{typeLabels[copy.type]}</p>
+        <p className="font-medium text-[13px] text-warm-800">{typeLabels[copy.type]}</p>
         <PieceStatusBadge status={copy.status} />
       </div>
 
@@ -219,7 +219,7 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
           </div>
         ) : copy.content ? (
           <>
-            <div className={`font-body text-[13px] text-warm-700 leading-relaxed whitespace-pre-wrap overflow-hidden transition-all ${expanded ? '' : 'max-h-20'}`}>
+            <div className={`text-[13px] text-warm-700 leading-relaxed whitespace-pre-wrap overflow-hidden transition-all ${expanded ? '' : 'max-h-20'}`}>
               {copy.content}
             </div>
             {copy.content.length > 180 && (
@@ -238,15 +238,15 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
             <div className="space-y-2">
               <textarea value={feedback} onChange={e => setFeedback(e.target.value)}
                 placeholder="¿Qué querés que cambie?" rows={3}
-                className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] font-body text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
+                className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
               <div className="flex gap-2">
                 <button onClick={() => setShowFeedback(false)}
-                  className="flex-1 border border-warm-200 text-warm-500 font-body text-[12px] py-2 rounded hover:bg-warm-50 transition-colors">
+                  className="flex-1 border border-warm-200 text-warm-500 text-[12px] py-2 rounded hover:bg-warm-50 transition-colors">
                   Cancelar
                 </button>
                 <button onClick={() => { updateCopyStatus(processId, copy.id, 'regenerating', feedback); setShowFeedback(false); setFeedback(''); }}
                   disabled={!feedback.trim()}
-                  className="flex-1 bg-warm-950 disabled:opacity-30 text-white font-body text-[12px] py-2 rounded hover:bg-warm-800 transition-colors flex items-center justify-center gap-1.5">
+                  className="flex-1 bg-gray-900 disabled:opacity-30 text-white text-[12px] py-2 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-1.5">
                   <RotateCcw size={11} strokeWidth={2} /> Regenerar
                 </button>
               </div>
@@ -256,18 +256,18 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
               {!isApproved ? (
                 <>
                   <button onClick={() => setShowFeedback(true)}
-                    className="flex-1 border border-warm-200 text-warm-500 font-body text-[12px] py-2 rounded hover:border-status-error/40 hover:text-status-error transition-all flex items-center justify-center gap-1.5">
+                    className="flex-1 border border-warm-200 text-warm-500 text-[12px] py-2 rounded hover:border-status-error/40 hover:text-status-error transition-all flex items-center justify-center gap-1.5">
                     <XCircle size={12} strokeWidth={1.5} /> Rechazar
                   </button>
                   <button onClick={() => updateCopyStatus(processId, copy.id, 'approved')}
-                    className="flex-1 bg-warm-950 text-white font-body text-[12px] py-2 rounded hover:bg-warm-800 transition-colors flex items-center justify-center gap-1.5">
+                    className="flex-1 bg-gray-900 text-white text-[12px] py-2 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-1.5">
                     <Check size={12} strokeWidth={2.5} /> Aprobar
                   </button>
                 </>
               ) : (
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-status-completed" />
-                  <span className="font-body text-[12px] text-status-completed">Aprobado</span>
+                  <span className="text-[12px] text-status-completed">Aprobado</span>
                 </div>
               )}
             </div>
@@ -285,7 +285,7 @@ function PiecesOverview({ process }: { process: Process }) {
       {process.images.map(img => (
         <div key={img.id} className="flex items-center gap-3 py-3 px-1 border-b border-warm-100 last:border-0">
           <ImageIcon size={12} strokeWidth={1.5} className="text-warm-400 flex-shrink-0" />
-          <p className="font-body text-[13px] text-warm-700 flex-1 truncate">{img.label}</p>
+          <p className="text-[13px] text-warm-700 flex-1 truncate">{img.label}</p>
           <p className="font-mono text-[10px] text-warm-400">{img.dimensions}</p>
           <PieceStatusBadge status={img.status} />
           {img.status === 'approved' && (
@@ -299,7 +299,7 @@ function PiecesOverview({ process }: { process: Process }) {
       {process.copies.map(c => (
         <div key={c.id} className="flex items-center gap-3 py-3 px-1 border-b border-warm-100 last:border-0">
           <FileText size={12} strokeWidth={1.5} className="text-warm-400 flex-shrink-0" />
-          <p className="font-body text-[13px] text-warm-700 flex-1 truncate">{c.label}</p>
+          <p className="text-[13px] text-warm-700 flex-1 truncate">{c.label}</p>
           <PieceStatusBadge status={c.status} />
         </div>
       ))}
@@ -324,8 +324,8 @@ export default function ProcessDetail() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-white">
         <AlertTriangle size={32} strokeWidth={1} className="text-status-waiting" />
-        <p className="font-display-italic text-[20px] text-warm-500">Proceso no encontrado</p>
-        <button onClick={() => navigate('/')} className="font-body text-[13px] text-warm-600 hover:text-warm-900 underline underline-offset-4 transition-colors">
+        <p className="font-semibold italic text-[20px] text-warm-500">Proceso no encontrado</p>
+        <button onClick={() => navigate('/')} className="text-[13px] text-warm-600 hover:text-warm-900 underline underline-offset-4 transition-colors">
           Volver al dashboard
         </button>
       </div>
@@ -353,7 +353,7 @@ export default function ProcessDetail() {
           <ArrowLeft size={14} strokeWidth={2} />
         </button>
         <div className="flex-1 min-w-0">
-          <h1 className="font-display-italic text-[22px] text-warm-950 tracking-tight leading-tight truncate">
+          <h1 className="font-semibold italic text-[22px] text-warm-950 tracking-tight leading-tight truncate">
             {process.name}
           </h1>
         </div>
@@ -401,7 +401,7 @@ export default function ProcessDetail() {
               <span className="font-mono text-[10px] text-warm-500 uppercase tracking-wider">Listas para descargar</span>
               {physicalApproved.map(img => (
                 <button key={img.id}
-                  className="flex items-center gap-1.5 font-body text-[12px] text-warm-700 border border-warm-200 bg-white rounded px-3 py-1.5 hover:bg-warm-50 hover:border-warm-300 transition-colors">
+                  className="flex items-center gap-1.5 text-[12px] text-warm-700 border border-warm-200 bg-white rounded px-3 py-1.5 hover:bg-warm-50 hover:border-warm-300 transition-colors">
                   <Download size={12} strokeWidth={1.75} /> {img.label}
                 </button>
               ))}
@@ -412,7 +412,7 @@ export default function ProcessDetail() {
           <div className="border-b border-warm-100 flex">
             {tabs.map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3.5 font-body text-[13px] transition-all border-b-2 ${
+                className={`flex items-center gap-2 px-6 py-3.5 text-[13px] transition-all border-b-2 ${
                   activeTab === tab.id
                     ? 'text-warm-900 border-warm-700 font-medium'
                     : 'text-warm-500 border-transparent hover:text-warm-700'
@@ -455,7 +455,7 @@ export default function ProcessDetail() {
                 ].filter(i => i.value).map(({ label, value }) => (
                   <div key={label}>
                     <p className="font-mono text-[9px] text-warm-400 uppercase tracking-wider mb-1">{label}</p>
-                    <p className="font-body text-[13px] text-warm-800 capitalize">{value}</p>
+                    <p className="text-[13px] text-warm-800 capitalize">{value}</p>
                   </div>
                 ))}
                 {(process.contextualAnswers.audience as string[] | undefined)?.length && (
@@ -475,7 +475,7 @@ export default function ProcessDetail() {
           {process.additionalContext && (
             <div className="p-6 border-b border-warm-100">
               <p className="font-mono text-[9px] text-warm-400 uppercase tracking-[0.18em] mb-3">Contexto adicional</p>
-              <p className="font-body text-[12px] text-warm-600 leading-relaxed">{process.additionalContext}</p>
+              <p className="text-[12px] text-warm-600 leading-relaxed">{process.additionalContext}</p>
             </div>
           )}
 
@@ -484,7 +484,7 @@ export default function ProcessDetail() {
             <div className="space-y-2.5">
               {[...process.images, ...process.copies].map(piece => (
                 <div key={piece.id} className="flex items-center justify-between gap-2">
-                  <p className="font-body text-[12px] text-warm-600 truncate flex-1">{piece.label}</p>
+                  <p className="text-[12px] text-warm-600 truncate flex-1">{piece.label}</p>
                   <PieceStatusBadge status={piece.status} />
                 </div>
               ))}

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,12 +7,10 @@
 @layer base {
   *, *::before, *::after { box-sizing: border-box; margin: 0; }
 
-  html { font-size: 15px; }
-
   body {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    background: #F7F5F0;
-    color: #18171A;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: #F2F5F3;
+    color: #111827;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -21,37 +19,26 @@
 }
 
 @layer utilities {
-  /* Scrollbar */
-  .scrollbar-warm { scrollbar-width: thin; scrollbar-color: #C8C4BB transparent; }
+  .scrollbar-warm {
+    scrollbar-width: thin;
+    scrollbar-color: #CBD5E1 transparent;
+  }
   .scrollbar-warm::-webkit-scrollbar { width: 4px; }
-  .scrollbar-warm::-webkit-scrollbar-thumb { background: #C8C4BB; border-radius: 2px; }
+  .scrollbar-warm::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 2px; }
 
-  /* Skeleton */
   .skeleton {
-    background: linear-gradient(90deg, #EDE9E0 0%, #E0DACF 50%, #EDE9E0 100%);
+    background: linear-gradient(90deg, #EEF2F6 0%, #E2E8F0 50%, #EEF2F6 100%);
     background-size: 400px 100%;
     animation: skeleton-shimmer 1.6s ease-in-out infinite;
-    border-radius: 2px;
-  }
-
-  /* Fraunces italic — the premium touch */
-  .font-display-italic {
-    font-family: 'Fraunces', Georgia, serif;
-    font-style: italic;
-    font-optical-sizing: auto;
-  }
-  .font-display {
-    font-family: 'Fraunces', Georgia, serif;
-    font-optical-sizing: auto;
+    border-radius: 6px;
   }
 }
 
 @keyframes skeleton-shimmer {
   0%   { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+  100% { background-position:  400px 0; }
 }
 
-/* Swipe animations */
 @keyframes swipe-left  { to { transform: translateX(-130%) rotate(-15deg); opacity: 0; } }
 @keyframes swipe-right { to { transform: translateX( 130%) rotate( 15deg); opacity: 0; } }
 .swipe-left  { animation: swipe-left  0.3s ease-in forwards; }

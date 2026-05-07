@@ -29,7 +29,6 @@ const channelIconMap: Record<Channel, React.ElementType> = {
   'poster-a5':       Printer,
 };
 
-/* ── Dropzone ── */
 function Dropzone({ label, sublabel, accept, file, onFile, preview }: {
   label: string; sublabel: string; accept: string;
   file: File | null; onFile: (f: File) => void; preview?: string;
@@ -47,29 +46,31 @@ function Dropzone({ label, sublabel, accept, file, onFile, preview }: {
       onDragLeave={() => setDragging(false)}
       onDrop={handleDrop}
       onClick={() => inputRef.current?.click()}
-      className={`border-2 border-dashed rounded transition-all duration-150 cursor-pointer min-h-44 flex flex-col items-center justify-center gap-4 p-8 ${
-        dragging ? 'border-warm-400 bg-warm-50' :
-        file     ? 'border-status-completed/50 bg-green-50/30' :
-                   'border-warm-200 hover:border-warm-300 hover:bg-warm-50'
+      className={`border-2 border-dashed rounded-2xl transition-all duration-200 cursor-pointer min-h-44 flex flex-col items-center justify-center gap-4 p-8 ${
+        dragging ? 'border-brand-400 bg-brand-50' :
+        file     ? 'border-brand-300 bg-brand-50/50' :
+                   'border-warm-300 hover:border-brand-300 hover:bg-brand-50/30'
       }`}
     >
       <input ref={inputRef} type="file" accept={accept} className="hidden"
         onChange={e => e.target.files?.[0] && onFile(e.target.files[0])} />
       {file ? (
         <div className="text-center">
-          {preview && <img src={preview} alt="" className="w-16 h-16 object-cover rounded mx-auto mb-3 shadow-sm" />}
+          {preview && <img src={preview} alt="" className="w-16 h-16 object-cover rounded-xl border border-white shadow-sm mx-auto mb-3" />}
           <div className="flex items-center gap-2 justify-center">
-            <Check size={13} className="text-status-completed" />
-            <span className="font-mono text-[12px] text-status-completed">{file.name}</span>
+            <Check size={14} className="text-brand-500" />
+            <span className="text-brand-600 font-semibold text-sm">{file.name}</span>
           </div>
-          <p className="font-mono text-[10px] text-warm-400 mt-1">Click para cambiar</p>
+          <p className="text-warm-400 text-xs mt-1">Click para cambiar</p>
         </div>
       ) : (
         <>
-          <Upload size={20} strokeWidth={1.5} className={dragging ? 'text-warm-600' : 'text-warm-400'} />
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${dragging ? 'bg-brand-100' : 'bg-warm-100'}`}>
+            <Upload size={20} strokeWidth={1.5} className={dragging ? 'text-brand-500' : 'text-warm-400'} />
+          </div>
           <div className="text-center">
-            <p className="font-body font-medium text-warm-700 text-[14px]">{label}</p>
-            <p className="font-mono text-[10px] text-warm-400 mt-1">{sublabel}</p>
+            <p className="text-gray-700 font-semibold text-sm">{label}</p>
+            <p className="text-warm-400 text-xs mt-1">{sublabel}</p>
           </div>
         </>
       )}
@@ -77,21 +78,20 @@ function Dropzone({ label, sublabel, accept, file, onFile, preview }: {
   );
 }
 
-/* ── Steps ── */
 function Step1({ data, onChange }: { data: File | null; onChange: (f: File) => void }) {
   const [preview, setPreview] = useState('');
   const handle = (f: File) => { onChange(f); setPreview(URL.createObjectURL(f)); };
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-display text-[22px] text-warm-950 tracking-tight">Pieza base</h2>
-        <p className="font-body text-[13px] text-warm-500 mt-2 leading-relaxed">El flyer 1:1 ya diseñado por tu equipo. Este es el punto de partida visual para todas las adaptaciones de formato.</p>
+        <h2 className="text-xl font-bold text-gray-900">Subí la pieza base</h2>
+        <p className="text-warm-500 text-sm mt-1.5 leading-relaxed">El flyer 1:1 ya diseñado por tu equipo. Es el punto de partida visual para todas las adaptaciones.</p>
       </div>
-      <Dropzone label="Subí tu flyer 1:1" sublabel="PNG · JPG · SVG — Recomendado 1080×1080px"
+      <Dropzone label="Arrastrá tu flyer 1:1 aquí" sublabel="PNG · JPG · SVG — Recomendado 1080×1080px"
         accept="image/*" file={data} onFile={handle} preview={preview} />
-      <div className="flex items-start gap-3 bg-warm-50 border border-warm-200 rounded px-4 py-3">
-        <span className="font-mono text-[10px] text-warm-400 mt-0.5 uppercase tracking-wider flex-shrink-0">Nota</span>
-        <p className="font-body text-[12px] text-warm-500 leading-relaxed">Alta resolución garantiza que las adaptaciones queden nítidas en todos los formatos, especialmente en las piezas físicas.</p>
+      <div className="bg-brand-50 border border-brand-100 rounded-xl px-4 py-3">
+        <p className="text-brand-600 text-xs font-semibold mb-1">Consejo</p>
+        <p className="text-brand-500 text-xs leading-relaxed">Alta resolución garantiza que las adaptaciones queden nítidas en todos los formatos.</p>
       </div>
     </div>
   );
@@ -101,16 +101,16 @@ function Step2({ data, onChange }: { data: File | null; onChange: (f: File) => v
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-display text-[22px] text-warm-950 tracking-tight">Guía de copy</h2>
-        <p className="font-body text-[13px] text-warm-500 mt-2 leading-relaxed">Un documento con los lineamientos de escritura para este proceso. Le da contexto a la IA para generar todos los textos.</p>
+        <h2 className="text-xl font-bold text-gray-900">Subí la guía de copy</h2>
+        <p className="text-warm-500 text-sm mt-1.5 leading-relaxed">Un documento con los lineamientos de escritura. Le da contexto a la IA para generar todos los textos.</p>
       </div>
-      <Dropzone label="Subí la guía de copy" sublabel="PDF · Word · PNG · JPG"
+      <Dropzone label="Arrastrá tu guía de copy aquí" sublabel="PDF · Word · PNG · JPG"
         accept=".pdf,.doc,.docx,image/*" file={data} onFile={onChange} />
-      <div className="border border-warm-200 rounded divide-y divide-warm-100">
+      <div className="bg-white rounded-xl border border-warm-200 divide-y divide-warm-100">
         {['Nombre del evento y descripción', 'Tono y estilo de comunicación', 'Hashtags y palabras clave', 'Call to action principal', 'Fecha, lugar y precio'].map((item, i) => (
           <div key={i} className="flex items-center gap-3 px-4 py-2.5">
-            <div className="w-1 h-1 rounded-full bg-warm-300 flex-shrink-0" />
-            <p className="font-body text-[12px] text-warm-600">{item}</p>
+            <div className="w-1.5 h-1.5 rounded-full bg-brand-400 flex-shrink-0" />
+            <p className="text-warm-600 text-sm">{item}</p>
           </div>
         ))}
       </div>
@@ -125,33 +125,33 @@ function Step3({ selected, onChange }: { selected: Channel[]; onChange: (ch: Cha
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-display text-[22px] text-warm-950 tracking-tight">Canales de distribución</h2>
-        <p className="font-body text-[13px] text-warm-500 mt-2">Elegí en qué canales y formatos se va a distribuir el contenido.</p>
+        <h2 className="text-xl font-bold text-gray-900">Canales de distribución</h2>
+        <p className="text-warm-500 text-sm mt-1.5">Elegí en qué canales y formatos se va a distribuir el contenido.</p>
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         {CHANNEL_CONFIGS.map(channel => {
           const Icon = channelIconMap[channel.id];
           const isSelected = selected.includes(channel.id);
           return (
             <button key={channel.id} onClick={() => toggle(channel.id)}
-              className={`relative flex items-start gap-3 p-4 border rounded text-left transition-all duration-100 ${
+              className={`relative flex items-start gap-3 p-4 rounded-2xl border-2 text-left transition-all duration-150 ${
                 isSelected
-                  ? 'border-warm-700 bg-warm-950 text-white'
-                  : 'border-warm-200 bg-white hover:border-warm-300 hover:bg-warm-50 text-warm-700'
+                  ? 'border-brand-400 bg-brand-50'
+                  : 'border-warm-200 bg-white hover:border-brand-200 hover:bg-brand-50/30'
               }`}>
-              <Icon size={16} strokeWidth={1.5} className={isSelected ? 'text-white mt-0.5 flex-shrink-0' : 'text-warm-400 mt-0.5 flex-shrink-0'} />
-              <div className="flex-1 min-w-0">
-                <p className="font-body font-medium text-[13px] leading-tight">{channel.label}</p>
-                <p className={`font-mono text-[10px] mt-0.5 ${isSelected ? 'text-warm-300' : 'text-warm-400'}`}>{channel.dimensions}</p>
+              <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-brand-400 text-white' : 'bg-warm-100 text-warm-500'}`}>
+                <Icon size={17} strokeWidth={1.5} />
+              </div>
+              <div className="flex-1 min-w-0 pt-0.5">
+                <p className={`font-semibold text-[13px] leading-tight ${isSelected ? 'text-brand-700' : 'text-gray-700'}`}>{channel.label}</p>
+                <p className="text-warm-400 text-[10px] mt-0.5 font-mono">{channel.dimensions}</p>
               </div>
               {channel.isPhysical && (
-                <span className={`font-mono text-[9px] uppercase tracking-wider border px-1.5 py-0.5 rounded-sm self-start ${isSelected ? 'border-warm-600 text-warm-300' : 'border-warm-200 text-warm-400'}`}>
-                  Físico
-                </span>
+                <span className="text-[9px] bg-amber-100 text-amber-600 px-1.5 py-0.5 rounded-md font-semibold absolute top-2 right-2">Físico</span>
               )}
               {isSelected && (
-                <div className="absolute top-3 right-3 w-4 h-4 bg-white rounded-full flex items-center justify-center flex-shrink-0">
-                  <Check size={10} className="text-warm-950" strokeWidth={3} />
+                <div className="absolute top-2.5 right-2.5 w-5 h-5 bg-brand-400 rounded-full flex items-center justify-center">
+                  <Check size={11} className="text-white" strokeWidth={3} />
                 </div>
               )}
             </button>
@@ -159,7 +159,7 @@ function Step3({ selected, onChange }: { selected: Channel[]; onChange: (ch: Cha
         })}
       </div>
       {selected.length > 0 && (
-        <p className="font-mono text-[11px] text-warm-500">
+        <p className="text-brand-500 text-sm font-semibold text-center">
           {selected.length} canal{selected.length !== 1 ? 'es' : ''} seleccionado{selected.length !== 1 ? 's' : ''}
         </p>
       )}
@@ -172,23 +172,21 @@ function Step4({ data, onChange }: { data: ContextualAnswers; onChange: (d: Cont
 
   const Chip = ({ label, selected, onClick }: { label: string; selected: boolean; onClick: () => void }) => (
     <button onClick={onClick}
-      className={`px-3 py-1.5 font-body text-[12px] rounded border transition-all duration-100 ${
-        selected
-          ? 'bg-warm-950 text-white border-warm-950'
-          : 'text-warm-600 border-warm-200 bg-white hover:border-warm-400 hover:text-warm-800'
+      className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all border ${
+        selected ? 'bg-brand-400 text-white border-brand-400' : 'bg-white text-warm-600 border-warm-200 hover:border-brand-300 hover:text-brand-600'
       }`}>
       {label}
     </button>
   );
 
-  const inputClass = "w-full px-3 py-2 bg-white border border-warm-200 rounded text-[13px] font-body text-warm-800 focus:outline-none focus:border-warm-500 transition-colors";
-  const labelClass = "font-mono text-[10px] text-warm-400 uppercase tracking-[0.15em] block mb-2";
+  const inputClass = "w-full px-3 py-2 bg-white border border-warm-200 rounded-xl text-sm text-gray-800 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all";
+  const labelClass = "text-xs font-semibold text-warm-500 uppercase tracking-wide block mb-2";
 
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="font-display text-[22px] text-warm-950 tracking-tight">Información del evento</h2>
-        <p className="font-body text-[13px] text-warm-500 mt-2">Cuanto más contexto, mejor será el contenido generado.</p>
+        <h2 className="text-xl font-bold text-gray-900">Información del evento</h2>
+        <p className="text-warm-500 text-sm mt-1.5">Cuanto más contexto, mejor será el contenido generado.</p>
       </div>
       <div className="space-y-5">
         <div>
@@ -266,7 +264,7 @@ function Step5({ onChange }: { context: string; onChange: (s: string) => void })
     onChange(input.trim());
     setInput('');
     setTimeout(() => {
-      setMessages(m => [...m, { role: 'assistant', text: '¡Perfecto. ¿Hay algo más o arrancamos?' }]);
+      setMessages(m => [...m, { role: 'assistant', text: '¡Perfecto, anotado! ¿Hay algo más o arrancamos?' }]);
       setDone(true);
       endRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 500);
@@ -275,22 +273,20 @@ function Step5({ onChange }: { context: string; onChange: (s: string) => void })
   return (
     <div className="space-y-5">
       <div>
-        <h2 className="font-display text-[22px] text-warm-950 tracking-tight">Contexto adicional</h2>
-        <p className="font-body text-[13px] text-warm-500 mt-2">Agregá cualquier información que no se cubrió en los pasos anteriores.</p>
+        <h2 className="text-xl font-bold text-gray-900">Contexto adicional</h2>
+        <p className="text-warm-500 text-sm mt-1.5">Agregá cualquier información que no se cubrió en los pasos anteriores.</p>
       </div>
-      <div className="border border-warm-200 rounded overflow-hidden bg-white">
-        <div className="p-4 space-y-3 max-h-60 overflow-y-auto scrollbar-warm">
+      <div className="bg-white border border-warm-200 rounded-2xl overflow-hidden">
+        <div className="p-4 space-y-3 max-h-64 overflow-y-auto scrollbar-warm">
           {messages.map((m, i) => (
             <div key={i} className={`flex gap-3 ${m.role === 'user' ? 'flex-row-reverse' : ''}`}>
               {m.role === 'assistant' && (
-                <div className="w-6 h-6 bg-warm-100 border border-warm-200 rounded flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Zap size={11} className="text-warm-600" />
+                <div className="w-7 h-7 rounded-full bg-brand-400 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Zap size={13} className="text-white" />
                 </div>
               )}
-              <div className={`max-w-xs rounded px-3.5 py-2.5 text-[13px] leading-relaxed font-body ${
-                m.role === 'assistant'
-                  ? 'bg-warm-50 border border-warm-200 text-warm-700'
-                  : 'bg-warm-950 text-white ml-auto'
+              <div className={`max-w-xs rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+                m.role === 'assistant' ? 'bg-warm-100 text-gray-700 rounded-tl-sm' : 'bg-brand-400 text-white rounded-tr-sm'
               }`}>
                 {m.text}
               </div>
@@ -302,25 +298,24 @@ function Step5({ onChange }: { context: string; onChange: (s: string) => void })
           <input type="text" value={input} onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && send()}
             placeholder="Escribí aquí..."
-            className="flex-1 px-3 py-2 bg-white border border-warm-200 rounded text-[13px] font-body text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 transition-colors" />
+            className="flex-1 px-4 py-2 bg-white border border-warm-200 rounded-xl text-sm text-gray-700 placeholder-warm-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all" />
           <button onClick={send} disabled={!input.trim()}
-            className="px-4 py-2 bg-warm-950 disabled:opacity-30 hover:bg-warm-800 text-white rounded font-body text-[13px] flex items-center gap-1.5 transition-colors">
-            <Send size={13} strokeWidth={1.75} /> Enviar
+            className="px-4 py-2 bg-brand-400 disabled:opacity-40 hover:bg-brand-500 text-white rounded-xl font-semibold text-sm flex items-center gap-1.5 transition-colors">
+            <Send size={14} /> Enviar
           </button>
         </div>
       </div>
       {done && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2.5 bg-green-50 border border-status-completed/20 rounded px-4 py-3">
-          <Check size={13} className="text-status-completed flex-shrink-0" />
-          <p className="font-body text-[13px] text-status-completed">Todo listo — podés lanzar el proceso</p>
+          className="bg-brand-50 border border-brand-100 rounded-xl px-4 py-3 flex items-center gap-2">
+          <Check size={14} className="text-brand-500 flex-shrink-0" />
+          <p className="text-brand-600 text-sm font-semibold">Todo listo — podés lanzar el proceso</p>
         </motion.div>
       )}
     </div>
   );
 }
 
-/* ── Main ── */
 export default function NewProcess() {
   const navigate = useNavigate();
   const [step, setStep]           = useState(1);
@@ -335,7 +330,6 @@ export default function NewProcess() {
   const canProceed: Record<number, boolean> = {
     1: !!baseFlyer, 2: !!copyGuide, 3: channels.length > 0, 4: true, 5: true,
   };
-
   const goNext = () => { setDir(1);  setStep(s => s + 1); };
   const goPrev = () => { setDir(-1); setStep(s => s - 1); };
 
@@ -352,7 +346,7 @@ export default function NewProcess() {
       images: CHANNEL_CONFIGS.filter(c => channels.includes(c.id)).map(c => ({
         id: `img-new-${c.id}`, channel: c.id, label: c.label, dimensions: c.dimensions,
         status: 'generating',
-        imageUrl: `https://placehold.co/500x500/EDE9E0/8C8880?text=${encodeURIComponent(c.label)}`,
+        imageUrl: `https://placehold.co/500x500/4DB887/ffffff?text=${encodeURIComponent(c.label)}`,
       })),
       copies: [
         { id: 'cn1', type: 'internal-invite', label: 'Invitación interna',   status: 'generating', content: '' },
@@ -366,53 +360,52 @@ export default function NewProcess() {
   };
 
   const variants = {
-    enter:  (d: number) => ({ x: d > 0 ? 24 : -24, opacity: 0 }),
+    enter:  (d: number) => ({ x: d > 0 ? 28 : -28, opacity: 0 }),
     center: { x: 0, opacity: 1 },
-    exit:   (d: number) => ({ x: d > 0 ? -24 : 24, opacity: 0 }),
+    exit:   (d: number) => ({ x: d > 0 ? -28 : 28, opacity: 0 }),
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
-      {/* Header */}
-      <div className="border-b border-warm-100 px-8 py-5 flex items-center justify-between">
+    <div className="min-h-screen p-8 flex flex-col">
+      <div className="flex items-start justify-between mb-8">
         <div>
-          <h1 className="font-display text-[22px] text-warm-950 tracking-tight leading-none">Nuevo proceso</h1>
-          <p className="font-mono text-[10px] text-warm-400 mt-1.5 uppercase tracking-wider">Paso {step} de {STEPS.length}</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Nuevo proceso</h1>
+          <p className="text-warm-500 text-sm mt-1">Paso {step} de {STEPS.length}</p>
         </div>
         <button onClick={() => navigate('/')}
-          className="w-8 h-8 border border-warm-200 rounded flex items-center justify-center text-warm-400 hover:text-warm-700 hover:border-warm-300 transition-colors">
-          <X size={14} strokeWidth={2} />
+          className="w-9 h-9 rounded-xl bg-white border border-warm-200 flex items-center justify-center hover:bg-warm-100 transition-colors">
+          <X size={15} className="text-warm-500" />
         </button>
       </div>
 
       {/* Step progress */}
-      <div className="border-b border-warm-100 px-8 py-4 flex items-center gap-0">
+      <div className="flex items-center gap-2 mb-10">
         {STEPS.map((s, i) => {
           const done = step > s.id, current = step === s.id;
+          const Icon = s.icon;
           return (
-            <div key={s.id} className="flex items-center">
-              <div className="flex items-center gap-2">
-                <div className={`w-6 h-6 rounded-full flex items-center justify-center font-mono text-[11px] transition-all border ${
-                  done    ? 'bg-warm-950 border-warm-950 text-white' :
-                  current ? 'bg-white border-warm-700 text-warm-900' :
-                            'bg-white border-warm-200 text-warm-400'
+            <div key={s.id} className="flex items-center gap-2 flex-1">
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                  done    ? 'bg-brand-400 text-white' :
+                  current ? 'bg-brand-400 text-white ring-4 ring-brand-100' :
+                            'bg-white border-2 border-warm-200 text-warm-400'
                 }`}>
-                  {done ? <Check size={11} strokeWidth={3} /> : s.id}
+                  {done ? <Check size={14} strokeWidth={3} /> : <Icon size={14} />}
                 </div>
-                <span className={`font-body text-[12px] hidden sm:block ${current ? 'text-warm-800' : done ? 'text-warm-500' : 'text-warm-300'}`}>
+                <span className={`text-xs font-semibold hidden sm:block ${current ? 'text-brand-600' : done ? 'text-warm-500' : 'text-warm-300'}`}>
                   {s.label}
                 </span>
               </div>
               {i < STEPS.length - 1 && (
-                <div className={`w-8 h-px mx-3 transition-colors ${done ? 'bg-warm-400' : 'bg-warm-200'}`} />
+                <div className={`flex-1 h-0.5 rounded-full transition-colors ${done ? 'bg-brand-300' : 'bg-warm-200'}`} />
               )}
             </div>
           );
         })}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 px-8 py-8 max-w-2xl">
+      <div className="flex-1 max-w-2xl">
         <AnimatePresence mode="wait" custom={dir}>
           <motion.div key={step} custom={dir} variants={variants}
             initial="enter" animate="center" exit="exit"
@@ -426,24 +419,22 @@ export default function NewProcess() {
         </AnimatePresence>
       </div>
 
-      {/* Footer nav */}
-      <div className="border-t border-warm-100 px-8 py-4 flex items-center justify-between max-w-2xl">
+      <div className="flex items-center justify-between mt-8 max-w-2xl">
         <button onClick={goPrev} disabled={step === 1}
-          className="flex items-center gap-2 px-4 py-2 border border-warm-200 rounded font-body text-[13px] text-warm-500 hover:text-warm-800 hover:border-warm-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-          <ChevronLeft size={15} /> Anterior
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-warm-200 bg-white text-warm-500 text-sm font-semibold hover:bg-warm-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+          <ChevronLeft size={16} /> Anterior
         </button>
-
         {step < STEPS.length ? (
           <button onClick={goNext} disabled={!canProceed[step]}
-            className="flex items-center gap-2 px-5 py-2 bg-warm-950 hover:bg-warm-800 text-white rounded font-body text-[13px] disabled:opacity-30 disabled:cursor-not-allowed transition-colors">
-            Siguiente <ChevronRight size={15} />
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-400 hover:bg-brand-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-semibold transition-colors">
+            Siguiente <ChevronRight size={16} />
           </button>
         ) : (
           <button onClick={handleLaunch} disabled={launching}
-            className="flex items-center gap-2 px-6 py-2 bg-warm-950 hover:bg-warm-800 disabled:opacity-50 text-white rounded font-body font-medium text-[13px] transition-colors">
+            className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-brand-400 hover:bg-brand-500 disabled:opacity-50 text-white text-sm font-bold transition-colors shadow-sm">
             {launching
-              ? <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Lanzando...</>
-              : <><Zap size={13} strokeWidth={2} /> Lanzar proceso</>
+              ? <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Lanzando...</>
+              : <><Zap size={15} /> Lanzar proceso</>
             }
           </button>
         )}

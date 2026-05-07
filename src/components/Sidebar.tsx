@@ -3,79 +3,82 @@ import { LayoutDashboard, Plus, Bell, Settings } from 'lucide-react';
 import { getProcesses } from '../store/processStore';
 
 export default function Sidebar() {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const location  = useLocation();
+  const navigate  = useNavigate();
   const processes = getProcesses();
-  const waitingCount = processes.filter(p => p.status === 'waiting').length;
-
-  const isHome = location.pathname === '/';
+  const waiting   = processes.filter(p => p.status === 'waiting').length;
+  const isHome    = location.pathname === '/';
 
   return (
-    <aside className="fixed inset-y-0 left-0 w-60 bg-warm-950 flex flex-col z-30">
+    <aside className="fixed inset-y-0 left-0 w-60 bg-sidebar flex flex-col z-30">
 
-      {/* Wordmark */}
-      <div className="px-6 pt-7 pb-6">
-        <p className="font-display text-white tracking-tight text-[17px] leading-none">Sinergia</p>
-        <p className="font-mono text-[10px] text-warm-500 tracking-[0.2em] uppercase mt-1.5">Content Studio</p>
+      {/* Logo */}
+      <div className="px-6 pt-6 pb-5 border-b border-white/5">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-brand-400 flex items-center justify-center flex-shrink-0">
+            <span className="text-white font-bold text-sm leading-none">S</span>
+          </div>
+          <div>
+            <p className="text-white font-semibold text-[14px] leading-tight tracking-tight">Sinergia</p>
+            <p className="text-white/35 text-[10px] leading-tight tracking-wide">Content Studio</p>
+          </div>
+        </div>
       </div>
 
-      {/* New process CTA */}
-      <div className="px-4 mb-6">
+      {/* CTA */}
+      <div className="px-4 py-4">
         <button
           onClick={() => navigate('/nuevo')}
-          className="w-full flex items-center justify-center gap-2 bg-white text-warm-950 font-body font-medium text-[13px] px-4 py-2.5 rounded hover:bg-warm-50 transition-colors duration-150"
+          className="w-full flex items-center justify-center gap-2 bg-brand-400 hover:bg-brand-500 text-white font-semibold text-[13px] px-4 py-2.5 rounded-xl transition-colors duration-150"
         >
-          <Plus size={13} strokeWidth={2.5} />
+          <Plus size={14} strokeWidth={2.5} />
           Nuevo proceso
         </button>
       </div>
 
       {/* Nav */}
       <nav className="px-3 flex-1 space-y-0.5">
-        <NavLink
-          to="/"
-          className={`flex items-center gap-3 px-3 py-2.5 rounded text-[13px] transition-colors duration-100 font-body ${
+        <NavLink to="/"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-medium transition-all duration-100 ${
             isHome
-              ? 'bg-warm-900 text-white'
-              : 'text-warm-400 hover:text-warm-100 hover:bg-warm-900/60'
-          }`}
-        >
-          <LayoutDashboard size={15} strokeWidth={1.75} className={isHome ? 'text-white' : 'text-warm-500'} />
+              ? 'bg-white/10 text-white'
+              : 'text-white/45 hover:text-white/80 hover:bg-white/6'
+          }`}>
+          <LayoutDashboard size={16} strokeWidth={1.75}
+            className={isHome ? 'text-brand-300' : 'text-white/30'} />
           Dashboard
-          {waitingCount > 0 && (
-            <span className="ml-auto font-mono text-[10px] bg-white/10 text-warm-300 px-1.5 py-0.5 rounded-sm">
-              {waitingCount}
+          {waiting > 0 && (
+            <span className="ml-auto bg-brand-400 text-white text-[10px] font-semibold px-2 py-0.5 rounded-full">
+              {waiting}
             </span>
           )}
         </NavLink>
       </nav>
 
-      {/* Stats */}
-      <div className="px-4 py-5 border-t border-warm-900/80">
-        <p className="font-mono text-[9px] text-warm-600 uppercase tracking-[0.18em] mb-3">Resumen</p>
-        <div className="space-y-2">
-          {[
-            { label: 'En proceso',    value: processes.filter(p => p.status === 'processing').length, color: 'bg-status-processing' },
-            { label: 'Para revisar',  value: processes.filter(p => p.status === 'waiting').length,    color: 'bg-status-waiting' },
-            { label: 'Completados',   value: processes.filter(p => p.status === 'completed').length,  color: 'bg-status-completed' },
-          ].map(({ label, value, color }) => (
-            <div key={label} className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className={`w-1.5 h-1.5 rounded-full ${color} opacity-80`} />
-                <span className="font-body text-[12px] text-warm-500">{label}</span>
-              </div>
-              <span className="font-mono text-[11px] text-warm-400">{value}</span>
+      {/* Stats summary */}
+      <div className="mx-3 mb-3 rounded-xl bg-white/5 border border-white/6 p-3.5">
+        <p className="text-white/25 text-[9px] font-semibold uppercase tracking-[0.18em] mb-3">Resumen</p>
+        {[
+          { label: 'En proceso',   n: processes.filter(p => p.status === 'processing').length, dot: 'bg-blue-400' },
+          { label: 'Para revisar', n: processes.filter(p => p.status === 'waiting').length,    dot: 'bg-amber-400' },
+          { label: 'Completados',  n: processes.filter(p => p.status === 'completed').length,  dot: 'bg-brand-400' },
+        ].map(({ label, n, dot }) => (
+          <div key={label} className="flex items-center justify-between py-1">
+            <div className="flex items-center gap-2">
+              <div className={`w-1.5 h-1.5 rounded-full ${dot}`} />
+              <span className="text-white/40 text-[12px]">{label}</span>
             </div>
-          ))}
-        </div>
+            <span className="text-white/55 text-[12px] font-semibold font-mono">{n}</span>
+          </div>
+        ))}
       </div>
 
       {/* Footer */}
-      <div className="border-t border-warm-900/80 px-3 py-3 flex gap-1">
-        {[{ icon: Bell, label: 'Notificaciones' }, { icon: Settings, label: 'Ajustes' }].map(({ icon: Icon, label }) => (
-          <button key={label} title={label}
-            className="flex items-center justify-center w-8 h-8 rounded text-warm-600 hover:text-warm-300 hover:bg-warm-900 transition-colors">
-            <Icon size={14} strokeWidth={1.75} />
+      <div className="border-t border-white/5 px-3 py-3 flex gap-1">
+        {[Bell, Settings].map((Icon, i) => (
+          <button key={i}
+            className="w-8 h-8 rounded-lg text-white/25 hover:text-white/60 hover:bg-white/8 flex items-center justify-center transition-all">
+            <Icon size={15} strokeWidth={1.75} />
           </button>
         ))}
       </div>

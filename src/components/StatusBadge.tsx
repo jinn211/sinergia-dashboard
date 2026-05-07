@@ -1,37 +1,38 @@
 import type { ProcessStatus, PieceStatus } from '../types';
+import { Loader2 } from 'lucide-react';
 
-const processCfg: Record<ProcessStatus, { dot: string; label: string }> = {
-  processing: { dot: 'bg-status-processing', label: 'En proceso' },
-  waiting:    { dot: 'bg-status-waiting',    label: 'Para revisar' },
-  completed:  { dot: 'bg-status-completed',  label: 'Completado' },
-  error:      { dot: 'bg-status-error',      label: 'Error' },
+const processCfg: Record<ProcessStatus, { bg: string; text: string; dot: string; label: string }> = {
+  processing: { bg: 'bg-blue-50',   text: 'text-blue-600',   dot: 'bg-blue-500 animate-pulse', label: 'En proceso' },
+  waiting:    { bg: 'bg-amber-50',  text: 'text-amber-600',  dot: 'bg-amber-500',              label: 'Para revisar' },
+  completed:  { bg: 'bg-brand-50',  text: 'text-brand-600',  dot: 'bg-brand-400',              label: 'Completado' },
+  error:      { bg: 'bg-red-50',    text: 'text-red-600',    dot: 'bg-red-500',                label: 'Error' },
 };
 
-const pieceCfg: Record<PieceStatus, { color: string; label: string; spin?: boolean }> = {
-  generating:       { color: 'text-status-processing', label: 'Generando',    spin: true },
-  'waiting-review': { color: 'text-status-waiting',    label: 'Para revisar' },
-  approved:         { color: 'text-status-completed',  label: 'Aprobado' },
-  rejected:         { color: 'text-status-error',      label: 'Rechazado' },
-  regenerating:     { color: 'text-warm-500',          label: 'Regenerando',  spin: true },
+const pieceCfg: Record<PieceStatus, { text: string; label: string; spin?: boolean }> = {
+  'generating':     { text: 'text-blue-500',   label: 'Generando',    spin: true },
+  'waiting-review': { text: 'text-amber-500',  label: 'Para revisar' },
+  'approved':       { text: 'text-brand-500',  label: 'Aprobado' },
+  'rejected':       { text: 'text-red-500',    label: 'Rechazado' },
+  'regenerating':   { text: 'text-warm-500',   label: 'Regenerando',  spin: true },
 };
 
 export function ProcessStatusBadge({ status }: { status: ProcessStatus }) {
-  const { dot, label } = processCfg[status];
+  const { bg, text, dot, label } = processCfg[status];
   return (
-    <span className="inline-flex items-center gap-1.5">
-      <span className={`w-[5px] h-[5px] rounded-full flex-shrink-0 ${dot} ${status === 'processing' ? 'animate-pulse' : ''}`} />
-      <span className="font-mono text-[11px] text-warm-500 tracking-wide">{label}</span>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${bg} ${text} border-current/20`}>
+      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${dot}`} />
+      {label}
     </span>
   );
 }
 
 export function PieceStatusBadge({ status }: { status: PieceStatus }) {
-  const { color, label, spin } = pieceCfg[status];
+  const { text, label, spin } = pieceCfg[status];
   return (
-    <span className={`inline-flex items-center gap-1.5 font-mono text-[10px] tracking-wide ${color}`}>
+    <span className={`inline-flex items-center gap-1.5 text-[11px] font-medium ${text}`}>
       {spin
-        ? <span className="w-2.5 h-2.5 border border-current border-t-transparent rounded-full animate-spin flex-shrink-0" />
-        : <span className="w-[5px] h-[5px] rounded-full bg-current flex-shrink-0" />
+        ? <Loader2 size={11} className="animate-spin flex-shrink-0" />
+        : <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0" />
       }
       {label}
     </span>
