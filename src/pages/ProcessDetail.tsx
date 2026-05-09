@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'framer-motion';
 import {
@@ -7,7 +7,7 @@ import {
   AlertTriangle, Loader2, Check,
 } from 'lucide-react';
 import type { Process, ImagePiece, CopyPiece } from '../types';
-import { getProcess, updateImageStatus, updateCopyStatus, useProcessStore } from '../store/processStore';
+import { updateImageStatus, updateCopyStatus, useProcessStore } from '../store/processStore';
 import { ProcessStatusBadge, PieceStatusBadge } from '../components/StatusBadge';
 import ChannelTag from '../components/ChannelTag';
 
@@ -37,7 +37,7 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
           <XCircle size={15} strokeWidth={1.5} />
           <p className="font-medium text-[14px]">¿Qué querés cambiar?</p>
         </div>
-        <p className="text-[13px] text-warm-500 leading-relaxed">
+        <p className="text-[13px] text-warm-700 leading-relaxed">
           Contale a la IA qué está mal para que pueda regenerar la imagen.
         </p>
         <textarea value={feedback} onChange={e => setFeedback(e.target.value)}
@@ -46,7 +46,7 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
           className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
         <div className="flex gap-2 mt-auto">
           <button onClick={() => setShowFeedback(false)}
-            className="flex-1 border border-warm-200 text-warm-500 text-[13px] py-2.5 rounded hover:bg-warm-50 transition-colors">
+            className="flex-1 border border-warm-200 text-warm-700 text-[13px] py-2.5 rounded hover:bg-warm-50 transition-colors">
             Cancelar
           </button>
           <button onClick={() => { onReject(feedback); setShowFeedback(false); }} disabled={!feedback.trim()}
@@ -70,7 +70,7 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
     >
       <motion.div style={{ opacity: approveOpacity }}
         className="absolute inset-0 bg-status-completed/8 border-2 border-status-completed rounded z-10 pointer-events-none flex items-center justify-center">
-        <div className="bg-brand-400 text-white px-6 py-2.5 rounded font-bold text-[18px] rotate-[-8deg]">
+        <div className="bg-sinergia text-white px-6 py-2.5 rounded font-bold text-[18px] rotate-[-8deg]">
           Aprobar
         </div>
       </motion.div>
@@ -86,7 +86,7 @@ function TinderCard({ image, onApprove, onReject, zIndex, isTop }: {
       <div className="h-[60px] px-5 flex items-center justify-between border-t border-warm-100">
         <div>
           <p className="font-medium text-warm-800 text-[13px]">{image.label}</p>
-          <p className="font-mono text-[10px] text-warm-400 mt-0.5">{image.dimensions}</p>
+          <p className="font-mono text-[10px] text-warm-600 mt-0.5">{image.dimensions}</p>
         </div>
         <ChannelTag channel={image.channel} />
       </div>
@@ -114,8 +114,8 @@ function ImageReview({ process }: { process: Process }) {
         {isGenerating ? (
           <>
             <Loader2 size={28} strokeWidth={1} className="text-status-processing animate-spin" />
-            <p className="font-semibold italic text-[18px] text-warm-500">Generando imágenes...</p>
-            <p className="font-mono text-[10px] text-warm-400 uppercase tracking-wider">Te avisaremos cuando estén listas</p>
+            <p className="font-semibold italic text-[18px] text-warm-700">Generando imágenes...</p>
+            <p className="font-mono text-[10px] text-warm-600 uppercase tracking-wider">Te avisaremos cuando estén listas</p>
           </>
         ) : (
           <>
@@ -132,7 +132,7 @@ function ImageReview({ process }: { process: Process }) {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <span className="font-mono text-[11px] text-warm-500">
+        <span className="font-mono text-[11px] text-warm-700">
           {Math.min(currentIdx + 1, reviewable.length)} de {reviewable.length}
         </span>
         <div className="flex gap-1">
@@ -165,7 +165,7 @@ function ImageReview({ process }: { process: Process }) {
         <div className="flex items-center justify-center gap-5 pt-1">
           <button
             onClick={() => updateImageStatus(process.id, current.id, 'regenerating', 'Regenerar')}
-            className="w-12 h-12 border border-warm-200 rounded-full text-warm-500 flex items-center justify-center hover:border-status-error/40 hover:text-status-error hover:bg-red-50/50 transition-all"
+            className="w-12 h-12 border border-warm-200 rounded-full text-warm-700 flex items-center justify-center hover:border-status-error/40 hover:text-status-error hover:bg-red-50/50 transition-all"
             title="Rechazar"
           >
             <ThumbsDown size={18} strokeWidth={1.5} />
@@ -180,7 +180,7 @@ function ImageReview({ process }: { process: Process }) {
         </div>
       )}
 
-      <p className="text-center font-mono text-[10px] text-warm-400 tracking-wider">
+      <p className="text-center font-mono text-[10px] text-warm-600 tracking-wider">
         Arrastrá o usá los botones
       </p>
     </div>
@@ -204,9 +204,9 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
   const isApproved   = copy.status === 'approved';
 
   return (
-    <div className={`border rounded bg-white overflow-hidden transition-colors ${isApproved ? 'border-status-completed/30' : 'border-warm-200'}`}>
-      <div className="px-5 py-3.5 border-b border-warm-100 flex items-center justify-between">
-        <p className="font-medium text-[13px] text-warm-800">{typeLabels[copy.type]}</p>
+    <div className="bg-white rounded-2xl border border-warm-200 shadow-card overflow-hidden transition-all">
+      <div className="px-5 py-4 border-b border-warm-100 flex items-center justify-between">
+        <p className="font-semibold text-[13px] text-gray-800">{typeLabels[copy.type]}</p>
         <PieceStatusBadge status={copy.status} />
       </div>
 
@@ -224,7 +224,7 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
             </div>
             {copy.content.length > 180 && (
               <button onClick={() => setExpanded(e => !e)}
-                className="font-mono text-[10px] text-warm-500 hover:text-warm-800 mt-2 uppercase tracking-wider transition-colors">
+                className="font-mono text-[10px] text-warm-700 hover:text-warm-800 mt-2 uppercase tracking-wider transition-colors">
                 {expanded ? '↑ Ver menos' : '↓ Ver más'}
               </button>
             )}
@@ -241,7 +241,7 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
                 className="w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded text-[13px] text-warm-800 placeholder-warm-400 focus:outline-none focus:border-warm-400 resize-none transition-colors" />
               <div className="flex gap-2">
                 <button onClick={() => setShowFeedback(false)}
-                  className="flex-1 border border-warm-200 text-warm-500 text-[12px] py-2 rounded hover:bg-warm-50 transition-colors">
+                  className="flex-1 border border-warm-200 text-warm-700 text-[12px] py-2 rounded hover:bg-warm-50 transition-colors">
                   Cancelar
                 </button>
                 <button onClick={() => { updateCopyStatus(processId, copy.id, 'regenerating', feedback); setShowFeedback(false); setFeedback(''); }}
@@ -256,11 +256,12 @@ function CopyCard({ copy, processId }: { copy: CopyPiece; processId: string }) {
               {!isApproved ? (
                 <>
                   <button onClick={() => setShowFeedback(true)}
-                    className="flex-1 border border-warm-200 text-warm-500 text-[12px] py-2 rounded hover:border-status-error/40 hover:text-status-error transition-all flex items-center justify-center gap-1.5">
+                    className="flex-1 bg-red-50 border border-red-100 text-red-400 text-[12px] py-2 rounded-xl hover:bg-red-100 hover:text-red-500 transition-all flex items-center justify-center gap-1.5">
                     <XCircle size={12} strokeWidth={1.5} /> Rechazar
                   </button>
                   <button onClick={() => updateCopyStatus(processId, copy.id, 'approved')}
-                    className="flex-1 bg-gray-900 text-white text-[12px] py-2 rounded hover:bg-gray-800 transition-colors flex items-center justify-center gap-1.5">
+                    className="flex-1 text-white text-[12px] py-2 rounded-xl transition-all flex items-center justify-center gap-1.5 opacity-75 hover:opacity-90"
+                    style={{ background: 'linear-gradient(145deg, #62D4A3 0%, #4DB887 45%, #3A9E72 100%)' }}>
                     <Check size={12} strokeWidth={2.5} /> Aprobar
                   </button>
                 </>
@@ -284,12 +285,12 @@ function PiecesOverview({ process }: { process: Process }) {
     <div className="space-y-px">
       {process.images.map(img => (
         <div key={img.id} className="flex items-center gap-3 py-3 px-1 border-b border-warm-100 last:border-0">
-          <ImageIcon size={12} strokeWidth={1.5} className="text-warm-400 flex-shrink-0" />
+          <ImageIcon size={12} strokeWidth={1.5} className="text-warm-600 flex-shrink-0" />
           <p className="text-[13px] text-warm-700 flex-1 truncate">{img.label}</p>
-          <p className="font-mono text-[10px] text-warm-400">{img.dimensions}</p>
+          <p className="font-mono text-[10px] text-warm-600">{img.dimensions}</p>
           <PieceStatusBadge status={img.status} />
           {img.status === 'approved' && (
-            <button className="text-warm-400 hover:text-warm-700 transition-colors">
+            <button className="text-warm-600 hover:text-warm-700 transition-colors">
               <Download size={13} strokeWidth={1.5} />
             </button>
           )}
@@ -298,7 +299,7 @@ function PiecesOverview({ process }: { process: Process }) {
       <div className="h-4" />
       {process.copies.map(c => (
         <div key={c.id} className="flex items-center gap-3 py-3 px-1 border-b border-warm-100 last:border-0">
-          <FileText size={12} strokeWidth={1.5} className="text-warm-400 flex-shrink-0" />
+          <FileText size={12} strokeWidth={1.5} className="text-warm-600 flex-shrink-0" />
           <p className="text-[13px] text-warm-700 flex-1 truncate">{c.label}</p>
           <PieceStatusBadge status={c.status} />
         </div>
@@ -311,20 +312,16 @@ function PiecesOverview({ process }: { process: Process }) {
 export default function ProcessDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { subscribe } = useProcessStore();
-  const [, setVersion] = useState(0);
+  const { processes } = useProcessStore();
   const [activeTab, setActiveTab] = useState<'images' | 'copy' | 'overview'>('images');
 
-  useEffect(() => { const u = subscribe(); return u; }, [subscribe]);
-  useEffect(() => { setVersion(v => v + 1); });
-
-  const process = id ? getProcess(id) : undefined;
+  const process = processes.find(p => p.id === id);
 
   if (!process) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen gap-4 bg-white">
         <AlertTriangle size={32} strokeWidth={1} className="text-status-waiting" />
-        <p className="font-semibold italic text-[20px] text-warm-500">Proceso no encontrado</p>
+        <p className="font-semibold italic text-[20px] text-warm-700">Proceso no encontrado</p>
         <button onClick={() => navigate('/')} className="text-[13px] text-warm-600 hover:text-warm-900 underline underline-offset-4 transition-colors">
           Volver al dashboard
         </button>
@@ -345,11 +342,11 @@ export default function ProcessDetail() {
   ];
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: '#E8EBE9' }}>
       {/* Header */}
-      <div className="border-b border-warm-100 px-8 py-5 flex items-center gap-4">
-        <button onClick={() => navigate('/')}
-          className="w-8 h-8 border border-warm-200 rounded flex items-center justify-center text-warm-400 hover:text-warm-700 hover:border-warm-300 transition-colors flex-shrink-0">
+      <div className="bg-white border-b border-warm-100 px-8 py-5 flex items-center gap-4">
+        <button onClick={() => navigate(-1)}
+          className="w-8 h-8 border border-warm-200 rounded flex items-center justify-center text-warm-600 hover:text-gray-900 hover:border-warm-400 transition-colors flex-shrink-0">
           <ArrowLeft size={14} strokeWidth={2} />
         </button>
         <div className="flex-1 min-w-0">
@@ -360,25 +357,21 @@ export default function ProcessDetail() {
         <ProcessStatusBadge status={process.status} />
       </div>
 
-      {/* Meta strip */}
-      <div className="border-b border-warm-100 px-8 py-3 flex items-center gap-4 flex-wrap bg-warm-50">
-        <div className="flex flex-wrap gap-2">
-          {process.channels.map(ch => <ChannelTag key={ch} channel={ch} size="md" />)}
-        </div>
-        {process.contextualAnswers?.sede && (
-          <span className="font-mono text-[10px] text-warm-400">· {process.contextualAnswers.sede}</span>
-        )}
+      {/* Meta strip — back layer: channels + date */}
+      <div className="px-8 py-3 flex items-center gap-3 flex-wrap">
+        {process.channels.map(ch => <ChannelTag key={ch} channel={ch} size="md" />)}
         {process.contextualAnswers?.eventDate && (
-          <span className="font-mono text-[10px] text-warm-400">
+          <span className="font-mono text-[13px] text-gray-700 font-medium">
             · {new Date(process.contextualAnswers.eventDate).toLocaleDateString('es-UY', { day: 'numeric', month: 'long' })}
             {process.contextualAnswers.eventTime && ` ${process.contextualAnswers.eventTime}hs`}
           </span>
         )}
       </div>
 
-      <div className="flex flex-1 min-h-0">
-        {/* Main */}
-        <div className="flex-1 min-w-0 flex flex-col">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
+        {/* Main — white elevated layer */}
+        <div className="flex-1 min-w-0 flex flex-col bg-white ml-6 mb-6"
+          style={{ boxShadow: '0 -2px 16px rgba(0,0,0,0.07), 0 4px 24px rgba(0,0,0,0.06)' }}>
 
           {/* Progress */}
           <div className="px-8 py-5 border-b border-warm-100 flex items-center gap-6">
@@ -390,21 +383,58 @@ export default function ProcessDetail() {
                                                  'bg-status-processing'
               }`} style={{ width: `${process.progress}%` }} />
             </div>
-            <span className="font-mono text-[11px] text-warm-500">{process.progress}%</span>
-            <span className="font-mono text-[11px] text-warm-400">{approvedImages}/{process.images.length} imágenes</span>
-            <span className="font-mono text-[11px] text-warm-400">{approvedCopies}/{process.copies.length} copys</span>
+            <span className="font-mono text-[12px] text-gray-600 font-medium">{process.progress}%</span>
+            <span className="font-mono text-[12px] text-gray-600">{approvedImages}/{process.images.length} imágenes</span>
+            <span className="font-mono text-[12px] text-gray-600">{approvedCopies}/{process.copies.length} copys</span>
           </div>
 
           {/* Physical assets */}
           {physicalApproved.length > 0 && (
             <div className="px-8 py-3 border-b border-warm-100 bg-warm-50 flex items-center gap-4 flex-wrap">
-              <span className="font-mono text-[10px] text-warm-500 uppercase tracking-wider">Listas para descargar</span>
+              <span className="font-mono text-[10px] text-warm-700 uppercase tracking-wider">Listas para descargar</span>
               {physicalApproved.map(img => (
                 <button key={img.id}
                   className="flex items-center gap-1.5 text-[12px] text-warm-700 border border-warm-200 bg-white rounded px-3 py-1.5 hover:bg-warm-50 hover:border-warm-300 transition-colors">
                   <Download size={12} strokeWidth={1.75} /> {img.label}
                 </button>
               ))}
+            </div>
+          )}
+
+          {/* Dormant modules — activatable */}
+          {process.imageSchedule === 'later' && process.images.length === 0 && (
+            <div className="mx-8 my-4 border border-warm-200 rounded-2xl bg-warm-50 px-5 py-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-semibold text-[13px] text-gray-800">Imágenes pendientes</p>
+                <p className="text-warm-500 text-[12px] mt-0.5">Las piezas gráficas de este proceso todavía no fueron generadas.</p>
+              </div>
+              <button
+                onClick={() => {
+                  const updated = { ...process, imageSchedule: 'now' as const,
+                    images: process.channels.map(ch => ({
+                      id: `img-act-${ch}`, channel: ch, label: ch, dimensions: '',
+                      status: 'generating' as const, imageUrl: '',
+                    }))
+                  };
+                  // In production: trigger n8n workflow
+                  console.log('Activating images for', process.id, updated);
+                }}
+                className="flex items-center gap-2 bg-sinergia hover:bg-sinergia-deep text-white text-[12px] font-semibold px-4 py-2 rounded-xl transition-all flex-shrink-0 shadow-sm">
+                <ImageIcon size={13} /> Generar imágenes
+              </button>
+            </div>
+          )}
+          {process.copySchedule === 'later' && process.copies.length === 0 && (
+            <div className="mx-8 my-4 border border-warm-200 rounded-2xl bg-warm-50 px-5 py-4 flex items-center justify-between gap-4">
+              <div>
+                <p className="font-semibold text-[13px] text-gray-800">Copy pendiente</p>
+                <p className="text-warm-500 text-[12px] mt-0.5">Los textos de este proceso todavía no fueron generados.</p>
+              </div>
+              <button
+                onClick={() => console.log('Activating copy for', process.id)}
+                className="flex items-center gap-2 bg-sinergia hover:bg-sinergia-deep text-white text-[12px] font-semibold px-4 py-2 rounded-xl transition-all flex-shrink-0 shadow-sm">
+                <FileText size={13} /> Generar copy
+              </button>
             </div>
           )}
 
@@ -415,7 +445,7 @@ export default function ProcessDetail() {
                 className={`flex items-center gap-2 px-6 py-3.5 text-[13px] transition-all border-b-2 ${
                   activeTab === tab.id
                     ? 'text-warm-900 border-warm-700 font-medium'
-                    : 'text-warm-500 border-transparent hover:text-warm-700'
+                    : 'text-warm-700 border-transparent hover:text-warm-700'
                 }`}>
                 {tab.label}
                 {tab.badge > 0 && (
@@ -441,54 +471,57 @@ export default function ProcessDetail() {
           </div>
         </div>
 
-        {/* Right sidebar */}
-        <div className="w-64 border-l border-warm-100 flex-shrink-0 overflow-y-auto scrollbar-warm bg-warm-50">
-          {process.contextualAnswers && (
-            <div className="p-6 border-b border-warm-100">
-              <p className="font-mono text-[9px] text-warm-400 uppercase tracking-[0.18em] mb-5">Detalles del proceso</p>
-              <div className="space-y-4">
-                {[
-                  { label: 'Tipo',   value: process.contextualAnswers.activityType },
-                  { label: 'Sede',   value: process.contextualAnswers.sede },
-                  { label: 'Tono',   value: process.contextualAnswers.tone },
-                  { label: 'Costo',  value: process.contextualAnswers.isFree !== undefined ? (process.contextualAnswers.isFree ? 'Entrada libre' : 'Con costo') : undefined },
-                ].filter(i => i.value).map(({ label, value }) => (
-                  <div key={label}>
-                    <p className="font-mono text-[9px] text-warm-400 uppercase tracking-wider mb-1">{label}</p>
-                    <p className="text-[13px] text-warm-800 capitalize">{value}</p>
+        {/* Right sidebar — sits directly on page background */}
+        <div className="w-80 flex-shrink-0 overflow-y-auto scrollbar-warm">
+          <div className="p-5 space-y-4">
+
+            {/* Detalles agrupados en un solo card con header */}
+            {process.contextualAnswers && (
+              <div className="bg-white rounded-2xl border border-warm-200 shadow-card overflow-hidden">
+                <div className="px-4 py-2.5 border-b border-warm-100 bg-warm-50">
+                  <p className="font-mono text-[9px] text-warm-600 uppercase tracking-[0.18em] text-black">Detalles</p>
+                </div>
+                <div className="divide-y divide-warm-100">
+                  {[
+                    { label: 'Tipo',  value: process.contextualAnswers.activityType },
+                    { label: 'Sede',  value: process.contextualAnswers.sede },
+                    { label: 'Tono',  value: process.contextualAnswers.tone },
+                    { label: 'Costo', value: process.contextualAnswers.isFree !== undefined ? (process.contextualAnswers.isFree ? 'Entrada libre' : 'Con costo') : undefined },
+                  ].filter(i => i.value).map(({ label, value }) => (
+                    <div key={label} className="flex items-center justify-between px-4 py-3">
+                      <p className="font-mono text-[10px] text-gray-700">{label}</p>
+                      <p className="text-[13px] font-semibold text-black capitalize">{value}</p>
+                    </div>
+                  ))}
+                  {(process.contextualAnswers.audience as string[] | undefined)?.length && (
+                    <div className="px-4 py-3">
+                      <p className="font-mono text-[10px] text-black mb-2">Público</p>
+                      <div className="flex flex-wrap gap-1">
+                        {(process.contextualAnswers.audience as string[]).map(a => (
+                          <span key={a} className="font-mono text-[10px] text-warm-700 border border-warm-200 bg-warm-50 px-2 py-0.5 rounded-lg capitalize">{a}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Estado de piezas agrupado */}
+            <div className="bg-white rounded-2xl border border-warm-200 shadow-card overflow-hidden">
+              <div className="px-4 py-2.5 border-b border-warm-100 bg-warm-50">
+                <p className="font-mono text-[9px] text-warm-600 uppercase tracking-[0.18em] text-black">Estado de piezas</p>
+              </div>
+              <div className="divide-y divide-warm-100">
+                {[...process.images, ...process.copies].map(piece => (
+                  <div key={piece.id} className="flex items-center justify-between px-4 py-3 gap-2">
+                    <p className="text-[13px] font-medium text-black truncate flex-1">{piece.label}</p>
+                    <PieceStatusBadge status={piece.status} />
                   </div>
                 ))}
-                {(process.contextualAnswers.audience as string[] | undefined)?.length && (
-                  <div>
-                    <p className="font-mono text-[9px] text-warm-400 uppercase tracking-wider mb-2">Público</p>
-                    <div className="flex flex-wrap gap-1">
-                      {(process.contextualAnswers.audience as string[]).map(a => (
-                        <span key={a} className="font-mono text-[9px] text-warm-500 border border-warm-200 bg-white px-2 py-0.5 rounded-sm capitalize">{a}</span>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
             </div>
-          )}
 
-          {process.additionalContext && (
-            <div className="p-6 border-b border-warm-100">
-              <p className="font-mono text-[9px] text-warm-400 uppercase tracking-[0.18em] mb-3">Contexto adicional</p>
-              <p className="text-[12px] text-warm-600 leading-relaxed">{process.additionalContext}</p>
-            </div>
-          )}
-
-          <div className="p-6">
-            <p className="font-mono text-[9px] text-warm-400 uppercase tracking-[0.18em] mb-4">Estado de piezas</p>
-            <div className="space-y-2.5">
-              {[...process.images, ...process.copies].map(piece => (
-                <div key={piece.id} className="flex items-center justify-between gap-2">
-                  <p className="text-[12px] text-warm-600 truncate flex-1">{piece.label}</p>
-                  <PieceStatusBadge status={piece.status} />
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

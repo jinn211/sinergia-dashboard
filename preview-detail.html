@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sinergia — Opciones Vista Proceso</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: #E8EBE9; padding: 40px 32px; }
+.page-title { text-align: center; font-family: 'DM Mono', monospace; font-size: 11px; color: #6B7280; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 40px; }
+
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; }
+
+.option-wrap { display: flex; flex-direction: column; gap: 10px; }
+.option-label { font-family: 'DM Mono', monospace; font-size: 9px; color: #9CA3AF; letter-spacing: .16em; text-transform: uppercase; text-align: center; }
+.option-name { font-size: 13px; font-weight: 600; color: #111827; text-align: center; }
+
+/* Shared card shell */
+.shell {
+  background: #F2F5F3;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #DDE1DE;
+  display: flex;
+  flex-direction: column;
+  min-height: 600px;
+}
+
+/* Shared header */
+.shell-header {
+  background: white;
+  border-bottom: 1px solid #E5E9E6;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.back-btn {
+  width: 26px; height: 26px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.back-arrow { width: 10px; height: 10px; border-left: 1.5px solid #6B7280; border-bottom: 1.5px solid #6B7280; transform: rotate(45deg); margin-left: 2px; }
+.process-title { font-size: 13px; font-weight: 600; color: #111827; flex: 1; }
+.status-pill { font-family: 'DM Mono', monospace; font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+/* Tabs */
+.tabs { background: white; border-bottom: 1px solid #E5E9E6; display: flex; }
+.tab { padding: 8px 14px; font-size: 11px; font-weight: 500; color: #9CA3AF; border-bottom: 2px solid transparent; }
+.tab.active { color: #111827; border-bottom-color: #4DB887; }
+
+/* Body split */
+.body { display: flex; flex: 1; overflow: hidden; }
+.main { flex: 1; padding: 14px; overflow: hidden; }
+.sidebar { width: 140px; flex-shrink: 0; border-left: 1px solid #E5E9E6; overflow: hidden; }
+
+/* Copy card — shared base */
+.copy-card {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.copy-label-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid #F3F4F6;
+}
+.copy-label { font-size: 11px; font-weight: 600; color: #374151; }
+.copy-status { font-family: 'DM Mono', monospace; font-size: 8px; color: #F59E0B; display: flex; align-items: center; gap: 3px; }
+.copy-status.approved { color: #4DB887; }
+.copy-body { padding: 8px 12px; }
+.copy-text-line { height: 6px; background: #F3F4F6; border-radius: 3px; margin-bottom: 4px; }
+.copy-actions { padding: 8px 12px; display: flex; gap: 6px; border-top: 1px solid #F3F4F6; }
+.btn-reject { flex: 1; padding: 5px; border: 1px solid #E2E8F0; border-radius: 6px; font-size: 9px; color: #6B7280; text-align: center; }
+.btn-approve { flex: 1; padding: 5px; background: #4DB887; border-radius: 6px; font-size: 9px; color: white; text-align: center; font-weight: 600; }
+
+/* ── OPTION 1: Row dividers ── */
+.o1-sidebar { padding: 12px; background: #F9FAFB; }
+.o1-label { font-family: 'DM Mono', monospace; font-size: 8px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 8px; }
+.o1-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid #F3F4F6; }
+.o1-row:last-child { border-bottom: none; }
+.o1-key { font-family: 'DM Mono', monospace; font-size: 8px; color: #9CA3AF; text-transform: uppercase; }
+.o1-val { font-size: 10px; font-weight: 600; color: #374151; text-transform: capitalize; }
+
+/* ── OPTION 2: Mini stat cards grid ── */
+.o2-sidebar { padding: 10px; background: #F9FAFB; }
+.o2-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.o2-card { background: white; border: 1px solid #E2E8F0; border-radius: 8px; padding: 7px 8px; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.o2-key { font-family: 'DM Mono', monospace; font-size: 7px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 3px; }
+.o2-val { font-size: 10px; font-weight: 600; color: #374151; text-transform: capitalize; }
+
+/* ── OPTION 3: Left border accent cards ── */
+.o3-sidebar { padding: 10px; background: #F9FAFB; }
+.o3-card {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-left: 3px solid #4DB887;
+  border-radius: 8px;
+  padding: 7px 10px;
+  margin-bottom: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+}
+.o3-key { font-family: 'DM Mono', monospace; font-size: 7px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 2px; }
+.o3-val { font-size: 10px; font-weight: 600; color: #374151; text-transform: capitalize; }
+
+/* ── OPTION 4: Full width cards like dashboard ── */
+.o4-sidebar { padding: 10px; background: #F9FAFB; }
+.o4-card {
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 9px 11px;
+  margin-bottom: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 10px rgba(0,0,0,.04);
+}
+.o4-key { font-family: 'DM Mono', monospace; font-size: 7px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 3px; }
+.o4-val { font-size: 11px; font-weight: 600; color: #111827; text-transform: capitalize; }
+
+/* ── OPTION 5: Flat grouped with section header ── */
+.o5-sidebar { padding: 12px; background: #F9FAFB; }
+.o5-section { background: white; border: 1px solid #E2E8F0; border-radius: 10px; overflow: hidden; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.o5-section-header { padding: 6px 11px; background: #F9FAFB; border-bottom: 1px solid #F3F4F6; font-family: 'DM Mono', monospace; font-size: 7px; color: #9CA3AF; text-transform: uppercase; letter-spacing: .12em; }
+.o5-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 11px; border-bottom: 1px solid #F9FAFB; }
+.o5-row:last-child { border-bottom: none; }
+.o5-key { font-size: 10px; color: #9CA3AF; }
+.o5-val { font-size: 10px; font-weight: 600; color: #374151; text-transform: capitalize; }
+
+/* Copy variants */
+/* O1 copy — minimal, no action row visible */
+.copy-card-o1 { background: white; border: 1px solid #E2E8F0; border-radius: 10px; margin-bottom: 7px; overflow: hidden; }
+.copy-card-o1 .head { padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; }
+.copy-card-o1 .lbl { font-size: 11px; font-weight: 600; color: #374151; }
+.copy-card-o1 .st { font-family: 'DM Mono', monospace; font-size: 8px; color: #F59E0B; }
+.copy-card-o1 .st.ok { color: #4DB887; }
+.copy-card-o1 .lines { padding: 0 12px 10px; }
+.copy-card-o1 .l { height: 5px; background: #F3F4F6; border-radius: 3px; margin-bottom: 3px; }
+.copy-card-o1 .acts { border-top: 1px solid #F9FAFB; display: flex; gap: 5px; padding: 7px 12px; }
+
+/* O2/O3/O4/O5 copy — with left border status */
+.copy-card-v2 { background: white; border: 1px solid #E2E8F0; border-left-width: 3px; border-radius: 10px; margin-bottom: 7px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.copy-card-v2.processing { border-left-color: #3B82F6; }
+.copy-card-v2.waiting { border-left-color: #F59E0B; }
+.copy-card-v2.approved { border-left-color: #4DB887; }
+.copy-card-v2 .head { padding: 8px 12px; display: flex; justify-content: space-between; }
+.copy-card-v2 .lbl { font-size: 11px; font-weight: 600; color: #374151; }
+.copy-card-v2 .st { font-family: 'DM Mono', monospace; font-size: 8px; color: #9CA3AF; }
+.copy-card-v2 .lines { padding: 0 12px 10px; }
+.copy-card-v2 .l { height: 5px; background: #F3F4F6; border-radius: 3px; margin-bottom: 3px; }
+.copy-card-v2 .acts { border-top: 1px solid #F3F4F6; display: flex; gap: 5px; padding: 7px 12px; }
+
+/* Copy O5 — integrated with main card DNA */
+.copy-card-v5 { background: white; border: 1px solid #E2E8F0; border-radius: 12px; margin-bottom: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 4px 12px rgba(0,0,0,.04); }
+.copy-card-v5 .head { padding: 10px 14px; display: flex; justify-content: space-between; border-bottom: 1px solid #F3F4F6; }
+.copy-card-v5 .lbl { font-size: 11px; font-weight: 600; color: #374151; }
+.copy-card-v5 .st { font-family: 'DM Mono', monospace; font-size: 8px; color: #F59E0B; display: flex; align-items: center; gap: 3px; }
+.copy-card-v5 .st.ok { color: #4DB887; }
+.copy-card-v5 .lines { padding: 8px 14px 10px; }
+.copy-card-v5 .l { height: 5px; background: #F3F4F6; border-radius: 3px; margin-bottom: 3px; }
+.copy-card-v5 .acts { border-top: 1px solid #F3F4F6; display: flex; gap: 6px; padding: 8px 14px; }
+
+.btn-r { flex: 1; padding: 5px; border: 1px solid #E2E8F0; border-radius: 7px; font-size: 9px; color: #6B7280; text-align: center; }
+.btn-a { flex: 1; padding: 5px; background: #4DB887; border-radius: 7px; font-size: 9px; color: white; text-align: center; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<p class="page-title">Sinergia · Opciones Vista Proceso — Sidebar + Tab Copy</p>
+
+<div class="grid">
+
+  <!-- ── OPCIÓN 1: Filas con dividers ── -->
+  <div class="option-wrap">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="back-btn"><div class="back-arrow"></div></div>
+        <div class="process-title">Workshop de Innovación</div>
+        <div class="status-pill"><span class="dot"></span>En proceso</div>
+      </div>
+      <div class="tabs">
+        <div class="tab">Imágenes</div>
+        <div class="tab active">Copy</div>
+        <div class="tab">Resumen</div>
+      </div>
+      <div class="body">
+        <div class="main">
+          <div class="copy-card-o1">
+            <div class="head"><span class="lbl">Invitación interna</span><span class="st ok">● Aprobado</span></div>
+            <div class="lines"><div class="l" style="width:90%"></div><div class="l" style="width:70%"></div><div class="l" style="width:80%"></div></div>
+          </div>
+          <div class="copy-card-o1">
+            <div class="head"><span class="lbl">Newsletter comunidad</span><span class="st">● Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:85%"></div><div class="l" style="width:60%"></div><div class="l" style="width:75%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+          <div class="copy-card-o1">
+            <div class="head"><span class="lbl">Redes sociales</span><span class="st">● Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:80%"></div><div class="l" style="width:65%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="o1-sidebar">
+            <div class="o1-label">Detalles</div>
+            <div class="o1-row"><span class="o1-key">Tipo</span><span class="o1-val">Workshop</span></div>
+            <div class="o1-row"><span class="o1-key">Sede</span><span class="o1-val">WTC</span></div>
+            <div class="o1-row"><span class="o1-key">Tono</span><span class="o1-val">Profesional</span></div>
+            <div class="o1-row"><span class="o1-key">Costo</span><span class="o1-val">Libre</span></div>
+            <div style="height:12px"></div>
+            <div class="o1-label">Piezas</div>
+            <div class="o1-row"><span class="o1-key" style="font-size:8px">IG Post</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#4DB887">● Aprobado</span></div>
+            <div class="o1-row"><span class="o1-key" style="font-size:8px">LinkedIn</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#F59E0B">● Revisar</span></div>
+            <div class="o1-row"><span class="o1-key" style="font-size:8px">A4</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#3B82F6">● Generando</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción 1</div>
+    <div class="option-name">Filas con divisores</div>
+  </div>
+
+  <!-- ── OPCIÓN 2: Grid de mini cards ── -->
+  <div class="option-wrap">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="back-btn"><div class="back-arrow"></div></div>
+        <div class="process-title">Workshop de Innovación</div>
+        <div class="status-pill"><span class="dot"></span>En proceso</div>
+      </div>
+      <div class="tabs">
+        <div class="tab">Imágenes</div>
+        <div class="tab active">Copy</div>
+        <div class="tab">Resumen</div>
+      </div>
+      <div class="body">
+        <div class="main">
+          <div class="copy-card-v2 waiting">
+            <div class="head"><span class="lbl">Newsletter comunidad</span><span class="st">Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:90%"></div><div class="l" style="width:70%"></div><div class="l" style="width:80%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+          <div class="copy-card-v2 approved">
+            <div class="head"><span class="lbl">Invitación interna</span><span class="st" style="color:#4DB887">Aprobado</span></div>
+            <div class="lines"><div class="l" style="width:85%"></div><div class="l" style="width:65%"></div></div>
+          </div>
+          <div class="copy-card-v2 waiting">
+            <div class="head"><span class="lbl">Redes sociales</span><span class="st">Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:80%"></div><div class="l" style="width:55%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="o2-sidebar">
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Detalles</div>
+            <div class="o2-grid">
+              <div class="o2-card"><div class="o2-key">Tipo</div><div class="o2-val">Workshop</div></div>
+              <div class="o2-card"><div class="o2-key">Sede</div><div class="o2-val">WTC</div></div>
+              <div class="o2-card"><div class="o2-key">Tono</div><div class="o2-val">Pro</div></div>
+              <div class="o2-card"><div class="o2-key">Costo</div><div class="o2-val">Libre</div></div>
+            </div>
+            <div style="height:10px"></div>
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Piezas</div>
+            <div class="o2-card" style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:500;color:#374151">IG Post</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#4DB887">● Ok</span></div>
+            <div class="o2-card" style="margin-bottom:4px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:500;color:#374151">LinkedIn</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#F59E0B">● Rev</span></div>
+            <div class="o2-card" style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:9px;font-weight:500;color:#374151">A4</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#3B82F6">● Gen</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción 2</div>
+    <div class="option-name">Grid de mini cards + copy con borde de estado</div>
+  </div>
+
+  <!-- ── OPCIÓN 3: Borde izquierdo en sidebar cards ── -->
+  <div class="option-wrap">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="back-btn"><div class="back-arrow"></div></div>
+        <div class="process-title">Workshop de Innovación</div>
+        <div class="status-pill"><span class="dot"></span>En proceso</div>
+      </div>
+      <div class="tabs">
+        <div class="tab">Imágenes</div>
+        <div class="tab active">Copy</div>
+        <div class="tab">Resumen</div>
+      </div>
+      <div class="body">
+        <div class="main">
+          <!-- Copy expandida, sin sidebar angosta -->
+          <div class="copy-card-v5">
+            <div class="head"><span class="lbl">Invitación interna</span><span class="st ok"><span class="dot" style="background:#4DB887"></span>Aprobado</span></div>
+            <div class="lines"><div class="l" style="width:90%"></div><div class="l" style="width:72%"></div><div class="l" style="width:85%"></div></div>
+          </div>
+          <div class="copy-card-v5">
+            <div class="head"><span class="lbl">Newsletter comunidad</span><span class="st"><span class="dot" style="background:#F59E0B"></span>Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:88%"></div><div class="l" style="width:65%"></div><div class="l" style="width:78%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+          <div class="copy-card-v5">
+            <div class="head"><span class="lbl">Redes sociales</span><span class="st"><span class="dot" style="background:#F59E0B"></span>Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:82%"></div><div class="l" style="width:60%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="o3-sidebar">
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Detalles</div>
+            <div class="o3-card"><div class="o3-key">Tipo</div><div class="o3-val">Workshop</div></div>
+            <div class="o3-card"><div class="o3-key">Sede</div><div class="o3-val">WTC</div></div>
+            <div class="o3-card"><div class="o3-key">Tono</div><div class="o3-val">Profesional</div></div>
+            <div class="o3-card"><div class="o3-key">Costo</div><div class="o3-val">Libre</div></div>
+            <div style="height:10px"></div>
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Piezas</div>
+            <div class="o3-card" style="display:flex;justify-content:space-between"><span style="font-size:9px;font-weight:500;color:#374151">IG Post</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#4DB887">● Ok</span></div>
+            <div class="o3-card" style="display:flex;justify-content:space-between"><span style="font-size:9px;font-weight:500;color:#374151">LinkedIn</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#F59E0B">● Rev</span></div>
+            <div class="o3-card" style="display:flex;justify-content:space-between"><span style="font-size:9px;font-weight:500;color:#374151">A4</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#3B82F6">● Gen</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción 3</div>
+    <div class="option-name">Cards con borde verde + copy premium</div>
+  </div>
+
+  <!-- ── OPCIÓN 4: Cards elevadas como dashboard ── -->
+  <div class="option-wrap">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="back-btn"><div class="back-arrow"></div></div>
+        <div class="process-title">Workshop de Innovación</div>
+        <div class="status-pill"><span class="dot"></span>En proceso</div>
+      </div>
+      <div class="tabs">
+        <div class="tab">Imágenes</div>
+        <div class="tab active">Copy</div>
+        <div class="tab">Resumen</div>
+      </div>
+      <div class="body">
+        <div class="main">
+          <div class="copy-card-o1" style="border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06)">
+            <div class="head" style="padding:10px 14px"><span class="lbl">Newsletter comunidad</span><span class="st">● Para revisar</span></div>
+            <div class="lines" style="padding:6px 14px 10px"><div class="l" style="width:92%"></div><div class="l" style="width:74%"></div><div class="l" style="width:82%"></div></div>
+            <div class="acts" style="padding:8px 14px"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+          <div class="copy-card-o1" style="border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06)">
+            <div class="head" style="padding:10px 14px"><span class="lbl">Invitación interna</span><span class="st ok">● Aprobado</span></div>
+            <div class="lines" style="padding:6px 14px 10px"><div class="l" style="width:88%"></div><div class="l" style="width:65%"></div></div>
+          </div>
+          <div class="copy-card-o1" style="border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.06)">
+            <div class="head" style="padding:10px 14px"><span class="lbl">Redes sociales</span><span class="st">● Para revisar</span></div>
+            <div class="lines" style="padding:6px 14px 10px"><div class="l" style="width:80%"></div><div class="l" style="width:58%"></div></div>
+            <div class="acts" style="padding:8px 14px"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="o4-sidebar">
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Detalles</div>
+            <div class="o4-card"><div class="o4-key">Tipo</div><div class="o4-val">Workshop</div></div>
+            <div class="o4-card"><div class="o4-key">Sede</div><div class="o4-val">WTC</div></div>
+            <div class="o4-card"><div class="o4-key">Tono</div><div class="o4-val">Profesional</div></div>
+            <div class="o4-card"><div class="o4-key">Costo</div><div class="o4-val">Libre</div></div>
+            <div style="height:10px"></div>
+            <div style="font-family:'DM Mono',monospace;font-size:7px;color:#9CA3AF;text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px">Piezas</div>
+            <div class="o4-card" style="display:flex;justify-content:space-between;align-items:center"><span class="o4-val" style="font-size:10px">IG Post</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#4DB887">● Ok</span></div>
+            <div class="o4-card" style="display:flex;justify-content:space-between;align-items:center"><span class="o4-val" style="font-size:10px">LinkedIn</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#F59E0B">● Rev</span></div>
+            <div class="o4-card" style="display:flex;justify-content:space-between;align-items:center"><span class="o4-val" style="font-size:10px">A4</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#3B82F6">● Gen</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción 4</div>
+    <div class="option-name">Cards elevadas igual que el dashboard</div>
+  </div>
+
+  <!-- ── OPCIÓN 5: Secciones agrupadas ── -->
+  <div class="option-wrap">
+    <div class="shell">
+      <div class="shell-header">
+        <div class="back-btn"><div class="back-arrow"></div></div>
+        <div class="process-title">Workshop de Innovación</div>
+        <div class="status-pill"><span class="dot"></span>En proceso</div>
+      </div>
+      <div class="tabs">
+        <div class="tab">Imágenes</div>
+        <div class="tab active">Copy</div>
+        <div class="tab">Resumen</div>
+      </div>
+      <div class="body">
+        <div class="main">
+          <div class="copy-card-v5" style="box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.06)">
+            <div class="head"><span class="lbl">Invitación interna</span><span class="st ok"><span class="dot" style="background:#4DB887;width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:3px"></span>Aprobado</span></div>
+            <div class="lines"><div class="l" style="width:90%"></div><div class="l" style="width:68%"></div></div>
+          </div>
+          <div class="copy-card-v5" style="box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.06)">
+            <div class="head"><span class="lbl">Newsletter comunidad</span><span class="st"><span style="width:5px;height:5px;border-radius:50%;background:#F59E0B;display:inline-block;margin-right:3px"></span>Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:88%"></div><div class="l" style="width:70%"></div><div class="l" style="width:80%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+          <div class="copy-card-v5" style="box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.06)">
+            <div class="head"><span class="lbl">Redes sociales</span><span class="st"><span style="width:5px;height:5px;border-radius:50%;background:#F59E0B;display:inline-block;margin-right:3px"></span>Para revisar</span></div>
+            <div class="lines"><div class="l" style="width:82%"></div><div class="l" style="width:58%"></div></div>
+            <div class="acts"><div class="btn-r">Rechazar</div><div class="btn-a">Aprobar</div></div>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="o5-sidebar">
+            <div class="o5-section">
+              <div class="o5-section-header">Detalles</div>
+              <div class="o5-row"><span class="o5-key">Tipo</span><span class="o5-val">Workshop</span></div>
+              <div class="o5-row"><span class="o5-key">Sede</span><span class="o5-val">WTC</span></div>
+              <div class="o5-row"><span class="o5-key">Tono</span><span class="o5-val">Pro</span></div>
+              <div class="o5-row"><span class="o5-key">Costo</span><span class="o5-val">Libre</span></div>
+            </div>
+            <div class="o5-section">
+              <div class="o5-section-header">Piezas</div>
+              <div class="o5-row"><span class="o5-key">IG Post</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#4DB887">● Ok</span></div>
+              <div class="o5-row"><span class="o5-key">LinkedIn</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#F59E0B">● Rev</span></div>
+              <div class="o5-row"><span class="o5-key">A4</span><span style="font-family:'DM Mono',monospace;font-size:7px;color:#3B82F6">● Gen</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label">Opción 5</div>
+    <div class="option-name">Secciones agrupadas en un solo card</div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -9,6 +9,8 @@ export type Channel =
   | 'poster-a5';
 
 export type ProcessStatus = 'processing' | 'waiting' | 'completed' | 'error';
+export type ModuleMode     = 'both' | 'copy-only' | 'images-only';
+export type ModuleSchedule = 'now' | 'later';
 
 export type PieceStatus =
   | 'generating'
@@ -75,6 +77,9 @@ export interface Process {
   progress: number;
   createdAt: string;
   updatedAt: string;
+  moduleMode: ModuleMode;
+  copySchedule: ModuleSchedule;
+  imageSchedule: ModuleSchedule;
   images: ImagePiece[];
   copies: CopyPiece[];
   baseImageUrl?: string;

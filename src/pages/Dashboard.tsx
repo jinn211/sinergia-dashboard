@@ -1,14 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, ArrowUpRight, ImageIcon, FileText, AlertCircle, TrendingUp, Clock, Zap } from 'lucide-react';
+import { Plus, Search, ArrowUpRight, ImageIcon, FileText, AlertCircle, ArrowUpDown } from 'lucide-react';
 import type { Process } from '../types';
-import { getProcesses, useProcessStore } from '../store/processStore';
-import { ProcessStatusBadge } from '../components/StatusBadge';
+import { useProcessStore } from '../store/processStore';
 import ChannelTag from '../components/ChannelTag';
 
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('es-UY', { day: 'numeric', month: 'short', year: 'numeric' });
-}
+
+const statusLeft: Record<Process['status'], string> = {
+  processing: 'border-l-blue-500',
+  waiting:    'border-l-amber-500',
+  completed:  'border-l-brand-500',
+  error:      'border-l-red-500',
+};
 
 function ProcessCard({ process, index }: { process: Process; index: number }) {
   const navigate = useNavigate();
@@ -17,70 +20,49 @@ function ProcessCard({ process, index }: { process: Process; index: number }) {
   const pending = process.images.filter(i => i.status === 'waiting-review').length
     + process.copies.filter(c => c.status === 'waiting-review').length;
 
-  const progressColor = {
-    processing: 'from-blue-400 to-blue-500',
-    waiting:    'from-amber-400 to-amber-500',
-    completed:  'from-brand-400 to-brand-500',
-    error:      'from-red-400 to-red-500',
-  }[process.status];
-
   return (
     <div
       onClick={() => navigate(`/proceso/${process.id}`)}
-      className="bg-white rounded-2xl shadow-card hover:shadow-card-hover border border-warm-300/60 p-5 cursor-pointer transition-all duration-200 group animate-fade-up"
+      className={`bg-white rounded-2xl shadow-card hover:shadow-card-hover border border-warm-200 border-l-[3px] ${statusLeft[process.status]} p-6 cursor-pointer transition-all duration-200 group animate-fade-up`}
       style={{ animationDelay: `${index * 40}ms`, opacity: 0, animationFillMode: 'forwards' }}
     >
       {/* Top */}
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <h3 className="text-gray-900 font-semibold text-[14px] leading-snug group-hover:text-brand-600 transition-colors line-clamp-2">
+      <div className="flex items-start justify-between gap-3 mb-4">
+        <h3 className="text-gray-900 font-semibold text-[14px] leading-snug group-hover:text-brand-600 transition-colors line-clamp-2 flex-1">
           {process.name}
         </h3>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <ProcessStatusBadge status={process.status} />
-          <ArrowUpRight size={15} strokeWidth={1.75} className="text-warm-400 group-hover:text-brand-400 transition-colors" />
-        </div>
+        <ArrowUpRight size={15} strokeWidth={1.75} className="text-warm-300 group-hover:text-brand-400 transition-colors flex-shrink-0 mt-0.5" />
       </div>
 
-      {/* Date */}
-      <p className="text-warm-500 text-[11px] font-mono mb-3 flex items-center gap-1.5">
-        <Clock size={10} />
-        {formatDate(process.createdAt)}
-        {process.contextualAnswers?.sede && <span className="text-warm-400">· {process.contextualAnswers.sede}</span>}
-      </p>
-
       {/* Channels */}
-      <div className="flex flex-wrap gap-1.5 mb-4">
+      <div className="flex flex-wrap gap-1.5 mb-5">
         {process.channels.map(ch => <ChannelTag key={ch} channel={ch} />)}
       </div>
 
-      {/* Progress bar */}
-      <div className="space-y-1.5">
-        <div className="flex justify-between items-center">
-          <span className="text-warm-500 text-[11px]">Progreso</span>
-          <span className="text-warm-600 text-[11px] font-semibold font-mono">{process.progress}%</span>
-        </div>
-        <div className="h-1.5 bg-warm-200 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full bg-gradient-to-r ${progressColor} transition-all duration-700`}
-            style={{ width: `${process.progress}%` }}
-          />
-        </div>
+      {/* Progress */}
+      <div className="h-1.5 bg-warm-100 rounded-full overflow-hidden mb-4">
+        <div
+          className="h-full rounded-full bg-warm-500 transition-all duration-700"
+          style={{ width: `${process.progress}%` }}
+        />
       </div>
 
-      {/* Stats footer */}
-      <div className="flex items-center gap-4 mt-4 pt-4 border-t border-warm-200">
-        <span className="flex items-center gap-1.5 text-[11px] text-warm-500">
-          <ImageIcon size={11} className="text-brand-400" />
-          {approvedImages}/{process.images.length} img
-        </span>
-        <span className="flex items-center gap-1.5 text-[11px] text-warm-500">
-          <FileText size={11} className="text-brand-400" />
-          {approvedCopies}/{process.copies.length} copy
-        </span>
+      {/* Footer */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-1.5 text-[11px] text-warm-600 font-mono">
+            <ImageIcon size={11} className="text-brand-400" />
+            {approvedImages}/{process.images.length}
+          </span>
+          <span className="flex items-center gap-1.5 text-[11px] text-warm-600 font-mono">
+            <FileText size={11} className="text-brand-400" />
+            {approvedCopies}/{process.copies.length}
+          </span>
+        </div>
         {pending > 0 && (
-          <span className="ml-auto flex items-center gap-1 text-[11px] text-amber-500 font-medium">
+          <span className="flex items-center gap-1 text-[11px] text-amber-500 font-medium">
             <AlertCircle size={11} />
-            {pending} para revisar
+            {pending} pendiente{pending !== 1 ? 's' : ''}
           </span>
         )}
       </div>
@@ -88,34 +70,37 @@ function ProcessCard({ process, index }: { process: Process; index: number }) {
   );
 }
 
-function StatCard({ label, value, icon: Icon, color }: { label: string; value: number; icon: React.ElementType; color: string }) {
+function StatCard({ label, value, dot }: { label: string; value: number; dot: string }) {
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-warm-300/60 p-5">
-      <div className="flex items-center justify-between mb-3">
-        <p className="text-warm-500 text-[12px] font-medium">{label}</p>
-        <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${color}`}>
-          <Icon size={15} className="text-white" />
-        </div>
+    <div className="bg-white rounded-2xl shadow-card border border-warm-200 px-6 pt-6 pb-10">
+      <div className="flex items-center gap-2 mb-3">
+        <div className={`w-2 h-2 rounded-full flex-shrink-0 ${dot}`} />
+        <p className="text-warm-500 text-[11px] font-mono uppercase tracking-wider">{label}</p>
       </div>
-      <p className="text-3xl font-bold text-gray-900 tracking-tight">{value}</p>
+      <p className="text-3xl font-bold text-gray-900 tracking-tight leading-none">{value}</p>
     </div>
   );
 }
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { subscribe } = useProcessStore();
-  const [processes, setProcesses] = useState(getProcesses());
-  const [search, setSearch]       = useState('');
-  const [filter, setFilter]       = useState<Process['status'] | 'all'>('all');
+  const { processes } = useProcessStore();
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState<Process['status'] | 'all'>('all');
+  const [sort, setSort]     = useState<'priority' | 'newest' | 'oldest'>('priority');
 
-  useEffect(() => { const u = subscribe(); return u; }, [subscribe]);
-  useEffect(() => { setProcesses(getProcesses()); });
+  const STATUS_ORDER: Record<Process['status'], number> = { waiting: 0, processing: 1, error: 2, completed: 3 };
 
-  const filtered = processes.filter(p =>
-    p.name.toLowerCase().includes(search.toLowerCase()) &&
-    (filter === 'all' || p.status === filter)
-  );
+  const filtered = processes
+    .filter(p =>
+      p.name.toLowerCase().includes(search.toLowerCase()) &&
+      (filter === 'all' || p.status === filter)
+    )
+    .sort((a, b) => {
+      if (sort === 'priority') return STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
+      if (sort === 'newest')   return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    });
 
   const stats = {
     processing: processes.filter(p => p.status === 'processing').length,
@@ -134,50 +119,69 @@ export default function Dashboard() {
 
   return (
     <div className="p-8 max-w-7xl">
+
       {/* Header */}
       <div className="flex items-start justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Procesos de contenido</h1>
-          <p className="text-warm-500 text-sm mt-1">{processes.length} proceso{processes.length !== 1 ? 's' : ''} en total</p>
+          <p className="text-warm-400 text-sm mt-1 font-mono">{processes.length} proceso{processes.length !== 1 ? 's' : ''}</p>
         </div>
         <button
           onClick={() => navigate('/nuevo')}
-          className="flex items-center gap-2 bg-brand-400 hover:bg-brand-500 text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-sinergia hover:bg-sinergia-deep text-white px-4 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-sm"
         >
-          <Plus size={16} />
+          <Plus size={15} strokeWidth={2.5} />
           Nuevo proceso
         </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-4 gap-4 mb-8">
-        <StatCard label="Total"         value={stats.total}      icon={TrendingUp}  color="bg-gray-700" />
-        <StatCard label="En proceso"    value={stats.processing} icon={Zap}         color="bg-blue-500" />
-        <StatCard label="Para revisar"  value={stats.waiting}    icon={Clock}       color="bg-amber-500" />
-        <StatCard label="Completados"   value={stats.completed}  icon={TrendingUp}  color="bg-brand-400" />
+      {/* Stats — mismo DNA que las cards de proceso */}
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <StatCard label="En proceso"   value={stats.processing} dot="bg-blue-400" />
+        <StatCard label="Para revisar" value={stats.waiting}    dot="bg-amber-400" />
+        <StatCard label="Completados"  value={stats.completed}  dot="bg-sinergia" />
       </div>
 
-      {/* Filters */}
+      {/* Filter bar — mismo estilo que los chips de canal */}
       <div className="flex items-center gap-3 mb-6">
         <div className="relative">
           <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-warm-400" />
           <input
             type="text"
-            placeholder="Buscar procesos..."
+            placeholder="Buscar..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            className="pl-9 pr-4 py-2 bg-white border border-warm-300 rounded-xl text-sm text-gray-800 placeholder-warm-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all w-52"
+            className="pl-9 pr-4 py-2 bg-white border border-warm-200 rounded-xl text-sm text-gray-800 placeholder-warm-400 focus:outline-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 transition-all shadow-sm w-48"
           />
         </div>
         <div className="flex items-center gap-1.5">
           {FILTERS.map(f => (
             <button key={f.value} onClick={() => setFilter(f.value)}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all border ${
                 filter === f.value
-                  ? 'bg-brand-400 text-white shadow-sm'
-                  : 'bg-white border border-warm-300 text-warm-600 hover:border-brand-300 hover:text-brand-600'
+                  ? 'bg-sinergia text-white shadow-sm'
+                  : 'bg-white ring-1 ring-warm-200 text-warm-500 hover:ring-warm-400 hover:text-gray-700'
               }`}>
               {f.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Sort control */}
+        <div className="ml-auto flex items-center gap-1.5 bg-white ring-1 ring-warm-200 rounded-xl px-1 py-1 shadow-sm">
+          <ArrowUpDown size={12} className="text-warm-400 ml-1.5" />
+          {([
+            { value: 'priority', label: 'Prioridad' },
+            { value: 'newest',   label: 'Más nuevo' },
+            { value: 'oldest',   label: 'Más viejo' },
+          ] as const).map(s => (
+            <button key={s.value} onClick={() => setSort(s.value)}
+              className={`px-3 py-1 rounded-lg text-[11px] font-medium transition-all ${
+                sort === s.value
+                  ? 'bg-warm-100 text-gray-800'
+                  : 'text-warm-500 hover:text-gray-700'
+              }`}>
+              {s.label}
             </button>
           ))}
         </div>
@@ -186,8 +190,8 @@ export default function Dashboard() {
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="text-center py-20">
-          <div className="w-16 h-16 rounded-2xl bg-white shadow-sm border border-warm-200 flex items-center justify-center mx-auto mb-4">
-            <Search size={24} className="text-warm-300" />
+          <div className="w-14 h-14 rounded-2xl bg-white shadow-card border border-warm-200 flex items-center justify-center mx-auto mb-4">
+            <Search size={22} className="text-warm-300" />
           </div>
           <p className="text-gray-600 font-semibold">Sin resultados</p>
           <p className="text-warm-400 text-sm mt-1">Probá otros filtros o creá un proceso nuevo</p>

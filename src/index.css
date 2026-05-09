@@ -19,6 +19,27 @@
 }
 
 @layer utilities {
+  /* Filter button selected state — gradient border matching the background gradient */
+  .btn-filter-active {
+    background:
+      linear-gradient(145deg, #62D4A3 0%, #4DB887 45%, #3A9E72 100%) padding-box,
+      linear-gradient(145deg, #4EC090 0%, #3A9E72 45%, #2A7D58 100%) border-box;
+    border: 1.5px solid transparent;
+    color: white;
+  }
+
+  /* Sinergia green — gradient with subtle reflection, matches their app */
+  .bg-sinergia {
+    background: linear-gradient(145deg, #62D4A3 0%, #4DB887 45%, #3A9E72 100%);
+  }
+  .bg-sinergia-deep {
+    background: linear-gradient(145deg, #4DB887 0%, #3A9E72 100%);
+  }
+  /* Same gradient for text-colored borders */
+  .border-sinergia {
+    border-color: #4DB887;
+  }
+
   .scrollbar-warm {
     scrollbar-width: thin;
     scrollbar-color: #CBD5E1 transparent;
